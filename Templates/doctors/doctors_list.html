@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctors List</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ child.first_name }}'s Details</title>
+        {% load static %}
+        <link rel="icon" href="../media/profile_pictures/Artboard 1 copy 3-100.jpg" type="image/x-icon">
+        <link rel="shortcut icon" href="../media/profile_pictures/Artboard 1 copy 3-100.jpg" type="image/x-icon">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'css/book.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        <!-- Font Awesome CDN -->
+        <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnH2N2bET0vrY34IRBUavumjLw5TgXSEERh4uHFheBlIg5Vw5dOG/mnn37T+9OrlCxlHgftI==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    </head>
+
+</head>
+<body>
+  {% include 'nav.html' %}
+
+
+    <div class="container">
+       
+          
+        <div class="book-container">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="sidebar scrollable-container ">
+                <form method="get" action="" class="search-form">
+                    <label class="form-label " for="search">Name/Registration ID:</label>
+                    <input type="text" name="search" id="search" class="form-input" value="{{ request.GET.search }}" placeholder="Enter name or registration ID">
+                  
+                    <label class="form-label" for="location">Filter by Location:</label>
+                    <select name="location" id="location" class="form-select">
+                      <option value="">--Select Location--</option>
+                      {% for location in locations %}
+                        <option value="{{ location.id }}" {% if location.id|stringformat:"s" == request.GET.location %}selected{% endif %}>
+                          {{ location.city }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  
+                    <button type="submit" class="form-button">Search</button>
+                  </form>
+         
+        
+            
+        
+            
+                  <form method="GET" action="{% url 'doctors_list' %}">
+                    <p class="city">Mode of Consult</p>
+                    <div class="select-option">
+                        <div class="select-city-option">
+                            <label for="Hospital Visit" class="radio-label">
+                                <input
+                                    type="checkbox"
+                                    name="consult_modes"
+                                    id="Hospital Visit"
+                                    value="Hospital Visit"
+                                    {% if 'Hospital Visit' in selected_consult_modes %}checked{% endif %}
+                                    class="custom-radio"
+                                />
+                                Hospital Visit
+                            </label>
+                        </div>
+                        <div class="select-city-option">
+                            <label for="OnlineConsult" class="radio-label">
+                                <input
+                                    type="checkbox"
+                                    name="consult_modes"
+                                    id="OnlineConsult"
+                                    value="Online Consult"
+                                    {% if 'Online Consult' in selected_consult_modes %}checked{% endif %}
+                                    class="custom-radio"
+                                />
+                                Online Consult
+                            </label>
+                        </div>
+                    </div>
+                
+                    <p class="city">Fees (In Rupees)</p>
+                    <div class="select-option">
+                        <div class="select-city-option">
+                            <label for="100-500" class="radio-label">
+                                <input
+                                    type="checkbox"
+                                    name="fees"
+                                    id="100-500"
+                                    value="100-500"
+                                    {% if '100-500' in selected_fees %}checked{% endif %}
+                                    class="custom-radio"
+                                />
+                                100-500
+                            </label>
+                        </div>
+                        <div class="select-city-option">
+                            <label for="500-1000" class="radio-label">
+                                <input
+                                    type="checkbox"
+                                    name="fees"
+                                    id="500-1000"
+                                    value="500-1000"
+                                    {% if '500-1000' in selected_fees %}checked{% endif %}
+                                    class="custom-radio"
+                                />
+                                500-1000
+                            </label>
+                        </div>
+                        <div class="select-city-option">
+                            <label for="1000+" class="radio-label">
+                                <input
+                                    type="checkbox"
+                                    name="fees"
+                                    id="1000+"
+                                    value="1000+"
+                                    {% if '1000+' in selected_fees %}checked{% endif %}
+                                    class="custom-radio"
+                                />
+                                1000+
+                            </label>
+                        </div>
+                    </div>
+                
+                    <p class="city">Language</p>
+                    <div class="select-option">
+                        {% for language in languages %}
+                        <div class="select-city-option">
+                            <label for="{{ language.language }}" class="radio-label">
+                                <input
+                                    type="checkbox"
+                                    name="languages"
+                                    id="{{ language.language }}"
+                                    value="{{ language.id }}"
+                                    {% if language.id|stringformat:"s" in selected_languages %}checked{% endif %}
+                                    class="custom-radio"
+                                />
+                                {{ language.language }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                </form>
+            
+        
+            
+            </div>
+        
+            </div>
+            <div class="col-md-9">
+              <div class="main-content-doctor scrollable-container ">
+                <h1 class="main-heading text-center profile-title mb-0 col-md-12">
+                  Consult Pediatricians Online - <br>  {{doctors_count}} Child Specialists 
+           
+                </h1>
+              {% for doctor in doctors %}
+               
+                <div class="doctor-list">
+                 
+                      <div class="doctor-of-hour">Doctor of the hour</div>
+                    <div class="d-flex justify-content-between">
+                      <div class="doctor-card-info col-5">
+                        <div class="doctor-card-img">
+                            {% if doctor.profile_photo %}
+                            <img src="{{ doctor.profile_photo.url }}" alt="{{ doctor.name }}">
+                        {% endif %}
+                        </div>
+                        <div class="doctor-detail-1">
+                       <a href="{% url 'doctor_detail' doctor.id %}">  <p class="doctor-name">{{ doctor.name }}</p></a> 
+                          <p class="doctor-specialty">{{ doctor.specialty }}</p>
+                          <p class="doctor-experience">
+                            {{ doctor.experience }} • {{ doctor.education }}
+                          </p>
+                          <p class="doctor-location">
+                            {{ doctor.location.city }}
+                          </p>
+                        </div>
+                      </div>
+                  
+           <!-- Sidebar Structure -->
+<div id="sidebar" class="sidebar">
+  <!-- Sidebar content goes here -->
+
+    <button class="close-btn" aria-label="Close Sidebar">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+    <div class="sidebar-content">
+      <p>Sidebar content here</p>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay"></div>
+
+<div class="DoctorCard_buttons">
+  <div class="DoctorCard_buttonWrapper">
+      <div class="DoctorCard_pricing">
+          <p class="fees">₹{{ doctor.price }}</p>
+      </div>
+      <div class="consult-buttons d-flex">
+          {% if doctor.digital_consult %}
+          <button class="DoctorCard_button gap-bt" id="digitalConsultBtn" value="bookDigitalConsult" aria-label="Digital Consult">
+              <span>Digital Consult</span>
+          </button>
+          {% endif %}
+          {% if doctor.hospital_visit %}
+          <button class="DoctorCard_button" id="hospitalVisitBtn" value="bookHospitalVisit" aria-label="Hospital Visit">
+              <span>Hospital Visit</span>
+          </button>
+          {% endif %}
+      </div>
+  </div>
+</div>
+
+                   
+                    </div>
+                    
+                  </div>
+                
+                  {% empty %}
+                        <p class="profile-title text-center">No doctors found.</p>
+                    {% endfor %}
+               
+              </div>
+            </div>
+          </div>
+   
+    
+          
+          </div>
+    </div>
+  
+    {% include 'base.html' %}
+
+
+
+
+    <!-- Filter and Search Form -->
+
+<script>
+  // Select necessary elements
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const digitalConsultBtn = document.getElementById('digitalConsultBtn');
+const hospitalVisitBtn = document.getElementById('hospitalVisitBtn');
+const closeBtn = document.querySelector('.close-btn');
+
+// Function to open the sidebar
+function openSidebar() {
+    sidebar.classList.add('open');
+    overlay.classList.add('visible');
+}
+
+// Function to close the sidebar
+function closeSidebar() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('visible');
+}
+
+// Add event listeners to buttons to trigger the sidebar
+if (digitalConsultBtn) {
+    digitalConsultBtn.addEventListener('click', openSidebar);
+}
+if (hospitalVisitBtn) {
+    hospitalVisitBtn.addEventListener('click', openSidebar);
+}
+
+// Event listener for closing the sidebar
+closeBtn.addEventListener('click', closeSidebar);
+overlay.addEventListener('click', closeSidebar);
+
+</script>
+
+</body>
+</html>

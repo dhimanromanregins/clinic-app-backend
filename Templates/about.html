@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load static %}
+    <link rel="icon" href="../media/profile_pictures/Artboard 1 copy 3-100.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../media/profile_pictures/Artboard 1 copy 3-100.jpg" type="image/x-icon">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Optional: Include external CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/child-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/book.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome CDN -->
+    <!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnH2N2bET0vrY34IRBUavumjLw5TgXSEERh4uHFheBlIg5Vw5dOG/mnn37T+9OrlCxlHgftI==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+<body>
+    {% include 'nav.html' %}
+
+    <section class="banner-about">
+
+            <div class="container">
+                <div class="row align-items-center ">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-8">
+                        <div class="main-content mt-5">
+                            <h2>About <br>  Hakim's clinic</h2>
+                            <p> Premium websites are designed specifically for audiology practices. Our teams of
+                                developers and digital marketing experts have one goal: to make your website look and
+                                work great to grow your practice.</p>
+                          
+                        </div>
+                    </div>
+              
+                </div>
+            </div>
+
+   
+    </section>
+    <section class="image_text_section padding-common">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <div class="imagebox">
+                        <div class="holder-img">
+                            <image src="./../media/profile_pictures/pic-6.png"></image>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="textbox">
+                        <div class="textbox_content">
+                            <h3>
+                                Pediatric Website Designs </h3>
+                            <div class="description">
+                                The American Academy of Pediatrics prefers Officite as their trusted provider of
+                                pediatric practice websites.<br><br>
+                                Our partnership with the AAP lets us offer exclusive content that can both help improve
+                                patient trust and attract new patients. </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    {% include 'base.html' %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

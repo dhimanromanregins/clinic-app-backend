@@ -1,0 +1,155 @@
+/* static/styles/navbar.css */
+body {
+    margin: 0;
+    overflow-x: hidden;
+    font-family: 'Lucida Console', monospace;
+}
+:root{
+    --primary-color:#2E3868;
+    --secondary-color:#18D5B9;
+
+  }
+  li.nav-item {
+    margin-right: 20px;
+}
+.navbar {
+    background-color: #fff;
+    color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+.navbar-brand h1{
+    color: var(--primary-color);
+}
+.navbar-light .navbar-nav .nav-link {
+    color: var(--primary-color)!important;
+}
+a.nav-link{
+   
+    font-size: 24px;
+    text-decoration: none;
+}
+.navbar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar-item {
+    margin-left: 20px;
+}
+
+.navbar-link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+.navbar-link:hover {
+    text-decoration: underline;
+}
+.dropdown-menu {
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: scale(0.95); /* Slightly smaller */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+.dropdown-menu.show {
+    transform: scale(1); /* Smooth opening */
+    opacity: 1;
+    visibility: visible;
+}
+.dropdown-item {
+    padding: 10px 20px;
+    color: #333;
+}
+.dropdown-item:hover {
+    background-color: #004080; /* Dark blue on hover */
+}
+.navbar-collapse {
+  
+    flex-grow: 0 !important;
+ 
+}
+.holder img {
+    width: 100%;
+}
+.logo-image{
+    width: 100px;
+    border-radius: 50px;
+    height: 100px;
+  }
+  .navbar-brand {
+ 
+ 
+    margin: 0;
+}
+a.nav-link {
+    margin: 0;
+}
+
+
+.navbar-toggler {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    background-image: none;
+}
+
+.navbar-toggler span {
+    display: block;
+    width: 30px;
+    height: 2px;
+    background-color: black;
+    margin: 6px 0;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-toggler.collapsed span {
+    background-color: black;
+}
+
+.navbar-toggler:not(.collapsed) span {
+    background-color: #333;
+}
+a.nav-link {
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+.nav-link i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover i {
+    transform: scale(1.2); /* Scale up the icon on hover */
+}
+img.login-profile {
+    width: 45px;
+    height: 45px;
+    border-radius: 200px;
+    border: 3px solid;
+}

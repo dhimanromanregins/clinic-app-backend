@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap CSS -->
+
+
+    <!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnH2N2bET0vrY34IRBUavumjLw5TgXSEERh4uHFheBlIg5Vw5dOG/mnn37T+9OrlCxlHgftI==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+
+<div class="main-wrap-register">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="holder-login-img">
+                    <img  src="../media/profile_pictures/pic-3.png">
+                </div>
+  </div>
+            <div class="col-lg-6">
+                <div class="login-container-one">            
+                    <div class ="login-header"> 
+                      <span class="login-header-text">CLIENT PORTAL</span>
+                    
+                    </div>
+                    <div class="login-inner">
+                      <form method="POST" action="{% url 'login' %}">
+                          {% csrf_token %}
+                          {% if form.errors %}
+                          <div class="form-errors">
+                              <ul>
+                                  {% for error in form.non_field_errors %}
+                                  <li>{{ error }}</li>
+                                  {% endfor %}
+                                  {% if form.identifier.errors %}
+                                  <li>{{ form.identifier.errors }}</li>
+                                  {% endif %}
+                              </ul>
+                          </div>
+                          {% endif %}
+                          <div class="form-group">
+                              <label for="identifier">Enter UAE ID or Phone Number:</label>
+                              <input type="text" name="identifier" id="identifier" class="form-control" required>
+                          </div>
+                          <div class="text-center">
+                            <button type="submit" class="btn">Send OTP</button>
+                          </div>
+           
+                      </form>
+                    </div>
+                   
+                  </div>
+            </div>
+        </div>
+    </div>
+     
+    </div>
+
+</body>
+
+</html>

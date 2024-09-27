@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load static %}
+    <link rel="icon" href="../media/profile_pictures/Artboard 1 copy 3-100.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../media/profile_pictures/Artboard 1 copy 3-100.jpg" type="image/x-icon">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Optional: Include external CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome CDN -->
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnH2N2bET0vrY34IRBUavumjLw5TgXSEERh4uHFheBlIg5Vw5dOG/mnn37T+9OrlCxlHgftI=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+
+<body>
+    {% include 'nav.html' %}
+
+    <!-- Main content -->
+    <section class="banner">
+        <div class="content">
+            <div class="container">
+                <div class="row align-items-center ">
+                    <div class="col-lg-8">
+                        <div class="main-content mt-5">
+                            <h2>Welcome <br> To Hakim's clinic</h2>
+                            <p> Premium websites are designed specifically for audiology practices. Our teams of
+                                developers and digital marketing experts have one goal: to make your website look and
+                                work great to grow your practice.</p>
+                            {% if user.is_authenticated %}
+                                <button class="open-form-btn" id="openFormBtn">Submit Child's Details</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="pediatrics-img">
+                            <image src="././../media/profile_pictures/Artboard 1 copy 3-100.jpg"></image>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="image_text_section padding-common">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="imagebox">
+                        <div class="holder">
+                            <image src="./../media/profile_pictures/pic-2.png"></image>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="textbox">
+                        <div class="textbox_content">
+                            <h3>
+                                Pediatric Website Designs </h3>
+                            <div class="description">
+                                The American Academy of Pediatrics prefers Officite as their trusted provider of
+                                pediatric practice websites.<br><br>
+                                Our partnership with the AAP lets us offer exclusive content that can both help improve
+                                patient trust and attract new patients. </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="image_text_section padding-common">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-lg-5">
+                    <div class="textbox">
+                        <div class="textbox_content">
+                            <h3>
+
+                                Personalized Designs </h3>
+                            <div class="description">
+
+                                Differentiate your website by choosing any of our new pediatric templates. View our
+                                gallery, find your design, and we'll do the rest -- making sure your website has never
+                                looked better. . </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="imagebox">
+                        <div class="holder-img">
+                            <image src="./../media/profile_pictures/pic-3.png"></image>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="text-run">
+        <div class="container">
+            <div class="row">
+                <div class="text-run-content p-5">
+                    <span class="wrap">
+                        <h3 class="left text">Learn How <span class="colorWhite">Hakim's Clinic</span> Can Help You</h3>
+                        <span class="btn-faux btn">GET STARTED</span>
+
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Modal -->
+    <div id="childDetailsModal" class="modal">
+
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center background-heading">
+                <h2 class="text-center">Submit Child's Details</h2>
+                <span class="close" id="closeFormBtn">&times;</span>
+
+
+            </div>
+            <div class="modal-body">
+                <div class="login-inner">
+                    <form action="{% url 'submit_child_details' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.errors %}
+                        <div class="form-errors">
+                            <ul>
+                                {% for field in form %}
+                                {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                                {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <label for="id_profile_picture">Profile Picture:</label>
+                            {{ form.profile_picture }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_first_name">First Name:</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_last_name">Last Name:</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_child_id_number">Child ID Number:</label>
+                            {{ form.child_id_number }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_relation">Relation:</label>
+                            {{ form.relation }}
+                        </div>
+                    
+
+                        <div class="form-group">
+                            <label for="{{ form.date_of_birth.id_for_label }}">Date of Birth</label>
+                            {{ form.date_of_birth }}
+                            {% if form.date_of_birth.errors %}
+                                <div class="error">{{ form.date_of_birth.errors }}</div>
+                            {% endif %}
+                        </div>
+             
+
+
+                        <div class="form-group">
+                            <label for="id_gender">Gender:</label>
+                            {{ form.gender }}
+                        </div>
+                        <button class="footer-btn">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Display Child Details -->
+    <div class="username">
+        <h2 class="profile-title mt-3">Registered Children Profile</h2>
+    </div>
+
+    <div class="children-container">
+        {% if children %}
+        {% for child in children %}
+        <a style="text-decoration: none;" href="{% url 'child_detail' child.id %}">
+            <div class="child-card">
+                {% if child.profile_picture %}
+                <img src="{{ child.profile_picture.url }}" alt="{{ child.first_name }}'s Profile Picture">
+                {% endif %}
+                <div class="child-card-content">
+                    <h3>{{ child.first_name }} {{ child.last_name }}</h3>
+                    <!-- <p><strong>Child ID Number:</strong> {{ child.child_id_number }}</p> -->
+                    <p><strong>Relation:</strong> {{ child.relation }}</p>
+                    <p><strong>Date of Birth:</strong> {{ child.date_of_birth }}</p>
+                    <p><strong>Gender:</strong> {{ child.gender }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        {% else %}
+        <p class="profile-title text-center">No children found.</p>
+        {% endif %}
+    </div>
+
+
+    <section class="background-tab">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2>
+                        Ionotropic Glutamate Receptors
+                    </h2>
+                    <h4>
+                        GRI Disorders are part of a larger family of genetic diseases related to ionotropic glutamate
+                        receptors. These receptors play an important role in learning and memory as well as other
+                        critical biological functions.
+
+                        CureGRIN and its network of researchers are working with closely with families affected by these
+                        disorders to identify insights that could benefit all.
+                    </h4>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="image-content">
+                        <img src="././../media/profile_pictures/5.png">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 
+    footer -->
+
+    {% include 'base.html' %}
+
+
+
+    <!-- footer -->
+    <script>
+        // Get modal element
+        var modal = document.getElementById("childDetailsModal");
+        // Get button that opens the modal
+        var btn = document.getElementById("openFormBtn");
+        // Get <span> element that closes the modal
+        var span = document.getElementById("closeFormBtn");
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

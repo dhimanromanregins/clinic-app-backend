@@ -1,0 +1,483 @@
+<div class="container">
+    {/ Sidebar /}
+    <div class="sidebar">
+      <button class="doctor-near-me">Show Doctors Near Me</button>
+      <p class="city">City</p>
+      <div class="search">
+        <span class="search-icon">
+          <img
+            srcset="https://images.apollo247.in/images/quickBook/search.svg?tr=q-80,w-50,dpr-1,c-at_max 50w, https://images.apollo247.in/images/quickBook/search.svg?tr=q-80,w-50,dpr-2,c-at_max 100w, https://images.apollo247.in/images/quickBook/search.svg?tr=q-80,w-50,dpr-3,c-at_max 150w, https://images.apollo247.in/images/quickBook/search.svg?tr=q-80,w-50,dpr-4,c-at_max 200w, https://images.apollo247.in/images/quickBook/search.svg?tr=q-80,w-50,dpr-5,c-at_max 250w, https://images.apollo247.in/images/quickBook/search.svg?tr=q-80,w-50,dpr-6,c-at_max 300w"
+            src="https://images.apollo247.in/images/quickBook/search.svg?tr=q-80,w-50,dpr-2,c-at_max 100w"
+            sizes="50px"
+            alt="icon"
+            width="28"
+            height="28"
+            loading="lazy"
+            fetchpriority="low"
+            class="Mj lazy "
+          />
+        </span>
+        <input
+          type="text"
+          placeholder="Search City"
+          class="search-city-input"
+          autocomplete="off"
+          value=""
+        ></input>
+      </div>
+
+      <div class="select-city">
+        <div class="select-city-option">
+          <input
+            type="radio"
+            name="status"
+            id="All Cities"
+            value="All Cities"
+            checked
+          />
+          <label for="All Cities">All Cities</label>
+        </div>
+        <div class="select-city-option">
+          <input
+            type="radio"
+            name="status"
+            id="Mumbai"
+            value="Mumbai"
+            checked
+          />
+          <label for="Mumbai">Mumbai</label>
+        </div>
+        <div class="select-city-option">
+          <input
+            type="radio"
+            name="status"
+            id="Bengaluru"
+            value="Bengaluru"
+            checked
+          />
+          <label for="Bengaluru">Bengaluru</label>
+        </div>
+        <div class="select-city-option">
+          <input
+            type="radio"
+            name="status"
+            id="Hyderabad"
+            value="Hyderabad"
+            checked
+          />
+          <label for="Hyderabad">Hyderabad</label>
+        </div>
+      </div>
+
+      <p class="city">Mode of Consult</p>
+      <div class="select-option">
+        <div class="select-city-option">
+          <label htmlFor="Hospital Visit" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="Hospital Visit"
+              value="Hospital Visit"
+              checked
+              className="custom-radio"
+            />
+            Hospital Visit
+          </label>
+        </div>
+        <div class="select-city-option">
+          <label htmlFor="OnlineConsult" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="OnlineConsult"
+              value="Online Consult"
+              checked
+              className="custom-radio"
+            />
+            Online Consult
+          </label>
+        </div>
+      </div>
+
+      <p class="city">Experience (In Years)</p>
+      <div class="select-option">
+        <div class="select-city-option">
+          <label htmlFor="0-5" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="0-5"
+              value="0-5"
+              // checked
+              className="custom-radio"
+            />
+            0-5
+          </label>
+        </div>
+        <div class="select-city-option">
+          <label htmlFor="6-10" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="6-10"
+              value="6-10"
+              // checked
+              className="custom-radio"
+            />
+            6-10
+          </label>
+        </div>
+        <div class="select-city-option">
+          <label htmlFor="11-16" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="11-16"
+              value="11-16"
+              // checked
+              className="custom-radio"
+            />
+            11-16
+          </label>
+        </div>
+        <button class="more" aria-label="Button">
+          <span>+1 More</span>
+        </button>
+      </div>
+
+      <p class="city">Fees (In Rupees)</p>
+      <div class="select-option">
+        <div class="select-city-option">
+          <label htmlFor="100-500" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="100-500"
+              value="100-500"
+              // checked
+              className="custom-radio"
+            />
+            100-500
+          </label>
+        </div>
+        <div class="select-city-option">
+          <label htmlFor="500-1000" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="500-1000"
+              value="500-1000"
+              // checked
+              className="custom-radio"
+            />
+            500-1000
+          </label>
+        </div>
+        <div class="select-city-option">
+          <label htmlFor="1000+" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="1000+"
+              value="1000+"
+              // checked
+              className="custom-radio"
+            />
+            1000+
+          </label>
+        </div>
+      </div>
+
+      <p class="city">Language</p>
+      <div class="select-option">
+        <div class="select-city-option">
+          <label htmlFor="English" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="English"
+              value="English"
+              // checked
+              className="custom-radio"
+            />
+            English
+          </label>
+        </div>
+        <div class="select-city-option">
+          <label htmlFor="Hindi" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="Hindi"
+              value="Hindi"
+              // checked
+              className="custom-radio"
+            />
+            Hindi
+          </label>
+        </div>
+        <div class="select-city-option">
+          <label htmlFor="Telugu" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="Telugu"
+              value="Telugu"
+              // checked
+              className="custom-radio"
+            />
+            Telugu
+          </label>
+        </div>
+        <button class="more" aria-label="Button">
+          <span>+9 More</span>
+        </button>
+      </div>
+
+      <p class="city">Facility</p>
+      <div class="select-option">
+        <div class="select-city-option">
+          <label htmlFor="Apollo Hospital" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="Apollo Hospital"
+              value="Apollo Hospital"
+              // checked
+              className="custom-radio"
+            />
+            Apollo Hospital
+          </label>
+        </div>
+        <div class="select-city-option">
+          <label htmlFor="Other Clinics" className="radio-label">
+            <input
+              type="checkbox"
+              name="status"
+              id="Other Clinics"
+              value="Other Clinics"
+              // checked
+              className="custom-radio"
+            />
+            Other Clinics
+          </label>
+        </div>
+      </div>
+    </div>
+
+    {/ Main content (Cards) /}
+    <div class="sub-container">
+      <div class="main-content">
+        <div class="heading-container">
+     
+            <h1 class="main-heading">
+              Consult Pediatricians Online - Child Specialists{" "}
+              <span class="">(432 doctors)</span>
+            </h1>
+            <div class="sortselect">
+              <button
+                class="button"
+                id="headlessui-listbox-button-3"
+                type="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span class="l_">
+                  <img
+                    srcset="https://images.apollo247.in/images/hospital-listing/sort.svg?tr=q-80,w-50,dpr-1,c-at_max 50w, https://images.apollo247.in/images/hospital-listing/sort.svg?tr=q-80,w-50,dpr-2,c-at_max 100w, https://images.apollo247.in/images/hospital-listing/sort.svg?tr=q-80,w-50,dpr-3,c-at_max 150w, https://images.apollo247.in/images/hospital-listing/sort.svg?tr=q-80,w-50,dpr-4,c-at_max 200w, https://images.apollo247.in/images/hospital-listing/sort.svg?tr=q-80,w-50,dpr-5,c-at_max 250w, https://images.apollo247.in/images/hospital-listing/sort.svg?tr=q-80,w-50,dpr-6,c-at_max 300w"
+                    src="https://images.apollo247.in/images/hospital-listing/sort.svg?tr=q-80,w-50,dpr-2,c-at_max 100w"
+                    sizes="50px"
+                    alt="Sort"
+                    width="24"
+                    height="24"
+                    loading="lazy"
+                    fetchpriority="low"
+                    class="Mj lazy "
+                  />
+                </span>
+                Relevance
+              </button>
+            </div>
+     
+        </div>
+
+        {/ {cards.map((card, index) => ( /}
+        <div class="doctor-list">
+          <a class="doctor-anchor" href="#">
+            <div class="doctor-of-hour">Doctor of the hour</div>
+            <div class="doctor-card-info">
+              <div class="doctor-card-img">
+                <img
+                  src="https://images.apollo247.in/doctor-cover/9695822f-7e7c-4acd-88e7-ae945eb6aa4d-1714025127007.jpg?tr=w-74,c-at_max,f-auto,q=80,dpr-2"
+                  alt="Dr. Thejaswini Peddakotla, Paediatrician"
+                  width="74"
+                  height="74"
+                  class="DoctorCard_doctorImage__Ul3tj"
+                />
+              </div>
+              <div class="doctor-detail">
+                <p class="doctor-name">Dr. Thejaswini Peddakotla</p>
+                <p class="doctor-specialty">Paediatrician</p>
+                <p class="doctor-experience">
+                  10 Years • MBBS, MD Paediatrics
+                </p>
+                <p class=""> </p>
+                <p class="doctor-location">
+                  Apollo 24|7 Virtual Clinic - Telangana Hyderabad
+                </p>
+              </div>
+            </div>
+            <div class="DoctorCard_buttons">
+              <div class="DoctorCard_buttonWrapper">
+                <div class="DoctorCard_pricing">
+                  <p class="fees">₹599</p>
+                </div>
+                <button
+                  class="DoctorCard_button"
+                  value="bookVideoConsult"
+                  aria-label="Button"
+                >
+                  <span>
+                    <span class="">Digital Consult</span>
+                    <span class=""></span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="doctor-list">
+          <a class="doctor-anchor" href="#">
+            <div class="doctor-of-hour">Doctor of the hour</div>
+            <div class="doctor-card-info">
+              <div class="doctor-card-img">
+                <img
+                  src="https://images.apollo247.in/doctor-cover/9695822f-7e7c-4acd-88e7-ae945eb6aa4d-1714025127007.jpg?tr=w-74,c-at_max,f-auto,q=80,dpr-2"
+                  alt="Dr. Thejaswini Peddakotla, Paediatrician"
+                  width="74"
+                  height="74"
+                  class="DoctorCard_doctorImage__Ul3tj"
+                />
+              </div>
+              <div class="doctor-detail">
+                <p class="doctor-name">Dr. Thejaswini Peddakotla</p>
+                <p class="doctor-specialty">Paediatrician</p>
+                <p class="doctor-experience">
+                  10 Years • MBBS, MD Paediatrics
+                </p>
+                <p class=""> </p>
+                <p class="doctor-location">
+                  Apollo 24|7 Virtual Clinic - Telangana Hyderabad
+                </p>
+              </div>
+            </div>
+            <div class="DoctorCard_buttons">
+              <div class="DoctorCard_buttonWrapper">
+                <div class="DoctorCard_pricing">
+                  <p class="fees">₹599</p>
+                </div>
+                <button
+                  class="DoctorCard_button"
+                  value="bookVideoConsult"
+                  aria-label="Button"
+                >
+                  <span>
+                    <span class="">Digital Consult</span>
+                    <span class=""></span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="doctor-list">
+          <a class="doctor-anchor" href="#">
+            <div class="doctor-of-hour">Doctor of the hour</div>
+            <div class="doctor-card-info">
+              <div class="doctor-card-img">
+                <img
+                  src="https://images.apollo247.in/doctor-cover/9695822f-7e7c-4acd-88e7-ae945eb6aa4d-1714025127007.jpg?tr=w-74,c-at_max,f-auto,q=80,dpr-2"
+                  alt="Dr. Thejaswini Peddakotla, Paediatrician"
+                  width="74"
+                  height="74"
+                  class="DoctorCard_doctorImage__Ul3tj"
+                />
+              </div>
+              <div class="doctor-detail">
+                <p class="doctor-name">Dr. Thejaswini Peddakotla</p>
+                <p class="doctor-specialty">Paediatrician</p>
+                <p class="doctor-experience">
+                  10 Years • MBBS, MD Paediatrics
+                </p>
+                <p class=""> </p>
+                <p class="doctor-location">
+                  Apollo 24|7 Virtual Clinic - Telangana Hyderabad
+                </p>
+              </div>
+            </div>
+            <div class="DoctorCard_buttons">
+              <div class="DoctorCard_buttonWrapper">
+                <div class="DoctorCard_pricing">
+                  <p class="fees">₹599</p>
+                </div>
+                <button
+                  class="DoctorCard_button"
+                  value="bookVideoConsult"
+                  aria-label="Button"
+                >
+                  <span>
+                    <span class="">Digital Consult</span>
+                    <span class=""></span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="doctor-list">
+          <a class="doctor-anchor" href="#">
+            <div class="doctor-of-hour">Doctor of the hour</div>
+            <div class="doctor-card-info">
+              <div class="doctor-card-img">
+                <img
+                  src="https://images.apollo247.in/doctor-cover/9695822f-7e7c-4acd-88e7-ae945eb6aa4d-1714025127007.jpg?tr=w-74,c-at_max,f-auto,q=80,dpr-2"
+                  alt="Dr. Thejaswini Peddakotla, Paediatrician"
+                  width="74"
+                  height="74"
+                  class="DoctorCard_doctorImage__Ul3tj"
+                />
+              </div>
+              <div class="doctor-detail">
+                <p class="doctor-name">Dr. Thejaswini Peddakotla</p>
+                <p class="doctor-specialty">Paediatrician</p>
+                <p class="doctor-experience">
+                  10 Years • MBBS, MD Paediatrics
+                </p>
+                <p class=""> </p>
+                <p class="doctor-location">
+                  Apollo 24|7 Virtual Clinic - Telangana Hyderabad
+                </p>
+              </div>
+            </div>
+            <div class="DoctorCard_buttons">
+              <div class="DoctorCard_buttonWrapper">
+                <div class="DoctorCard_pricing">
+                  <p class="fees">₹599</p>
+                </div>
+                <button
+                  class="DoctorCard_button"
+                  value="bookVideoConsult"
+                  aria-label="Button"
+                >
+                  <span>
+                    <span class="">Digital Consult</span>
+                    <span class=""></span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,27 @@
+
+{% include 'nav.html' %}
+<!-- Display Child Details -->
+<div  style="flex:1;"class="children-container">
+    {% if children %}
+    {% for child in children %}
+    <a style="text-decoration: none;" href="{% url 'child_detail' child.id %}">
+        <div class="child-card">
+            {% if child.profile_picture %}
+            <img src="{{ child.profile_picture.url }}" alt="{{ child.first_name }}'s Profile Picture">
+            {% endif %}
+            <div class="child-card-content">
+                <h3>{{ child.first_name }} {{ child.last_name }}</h3>
+                <!-- <p><strong>Child ID Number:</strong> {{ child.child_id_number }}</p> -->
+                <p><strong>Relation:</strong> {{ child.relation }}</p>
+                <p><strong>Date of Birth:</strong> {{ child.date_of_birth }}</p>
+                <p><strong>Gender:</strong> {{ child.gender }}</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <p class="profile-title text-center">No children found.</p>
+    {% endif %}
+</div>
+
+{% include 'footer.html' %}

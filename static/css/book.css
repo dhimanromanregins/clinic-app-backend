@@ -1,0 +1,662 @@
+.book-container {
+  display: flex;
+
+}
+.sidebar {
+
+  background-color: #ffffff;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  background-color: #ddd;
+}
+
+.doctor-near-me {
+  border: 1px solid #106c89;
+  color: #106c89;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: 32px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.city {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--primary-main);
+  font-weight: bold;
+  margin: 10px 0px;
+}
+
+img {
+  height: 20px;
+  width: 20px;
+}
+
+.search-city-input {
+  padding: 0 8px;
+  border: 1px solid #ccccc9;
+  width: 100%;
+  font-size: 16px;
+  color: #121414;
+  background: #fff;
+  border-radius: 8px;
+  font-weight: 400;
+  height: 38px;
+}
+.select-city {
+  display: flex;
+  align-items: unset;
+  justify-content: unset;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.select-city-option {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: unset;
+  gap: 10px;
+}
+.select-city-option label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: unset;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #121414;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  gap: 12px;
+}
+.select-option div {
+  padding-bottom: 12px;
+}
+.select-option {
+  padding-left: 2px;
+}
+label.radio-label {
+  font-size: 14px;
+}
+/* Style for the checkbox and label */
+.select-city-option {
+  margin-bottom: 15px; /* Space between the options */
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+.custom-radio {
+  margin-right: 10px; /* Adds a gap between the checkbox and the label text */
+}
+
+/* Optional: Adjustments to make the checkboxes look more elegant */
+.custom-radio {
+  width: 18px;
+  height: 18px;
+}
+
+
+.more {
+  border: none;
+  background: transparent;
+  color: #106c89;
+  padding: 4px;
+  cursor: pointer;
+}
+.more > span {
+  font-weight: 600;
+}
+
+
+.sub-container {
+  display: flex;
+}
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x:hidden ;
+
+ 
+}
+.side-content {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: #f9f9f9;
+  width: 150px;
+}
+
+.heading-container {
+  display: flex;
+  align-items: unset;
+  justify-content: unset;
+  flex-direction: column;
+  gap: 16px;
+}
+.heading-sub-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+}
+.main-heading {
+  font-size: 24px;
+  text-transform: capitalize;
+  font-weight: 700;
+  color: #121414;
+}
+.main-heading span {
+  font-size: 16px;
+}
+.heading-sub-container .sortselect {
+  width: 300px;
+  position: relative;
+}
+.sortselect .button {
+  color: #121414;
+  width: 100%;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: unset;
+  height: 52px;
+  line-height: 24px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  text-align: left;
+  font-weight: 400;
+  border: 1px solid #ccccc9;
+  background: #fff;
+  color: #bebebb;
+  cursor: pointer;
+}
+.l_ {
+  margin-right: 12px;
+}
+
+.button:after {
+  content: "";
+  position: absolute;
+  right: 20px;
+  top: calc(50% - 6px);
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  transform: rotate(45deg);
+  border-color: transparent #121414 #121414 transparent;
+  border-style: solid;
+  border-width: 2px;
+  transition: 0.5s ease;
+}
+
+.doctor-list {
+
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+
+  width: 100%;
+}
+
+.doctor-anchor {
+  padding: 16px;
+  border: 1px solid #e7e7e5;
+  border-radius: 8px;
+  display: flex;
+  align-items: unset;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 12px;
+  position: relative;
+} 
+
+.doctor-of-hour {
+  align-self: flex-end;
+
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: 1px;
+  padding: 4px;
+  background: linear-gradient(90deg, #e39f17 39.5%, #5c3f04);
+  text-transform: uppercase;
+  color: #fff;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.doctor-card-info{
+  display: flex;
+  align-items: unset;
+  justify-content: unset;
+  flex-direction: row;
+  gap: 12px;
+  max-width: calc(60% - 12px);
+   max-width: 100%; 
+}
+
+.doctor-card-img {
+  display: flex;
+  align-items: center;
+  justify-content: unset;
+  flex-direction: column;
+  position: relative;
+  height: 74px;
+  width: 74px;
+}
+/* .DoctorCard_doctorImage__Ul3tj {
+  -o-object-fit: cover;
+  object-fit: cover;
+} */
+.doctor-card-img img {
+  object-fit: cover;
+  width: 74px;
+  aspect-ratio: auto 74 / 74;
+  height: 74px;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  outline: 0;
+}
+.doctor-detail {
+  display: flex;
+  align-items: unset;
+  justify-content: unset;
+  flex-direction: column;
+  gap: 8px;
+  max-width: calc(100% - 74px - 12px);
+}
+.doctor-detail p{
+  text-transform: capitalize;
+    max-width: 20vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+}
+.doctor-name{
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 16px;
+  color: #121414;
+}
+.doctor-specialty{
+  color: #989795;
+  font-weight: 500;
+  font-size: 15px;
+}
+.doctor-experience{
+  text-transform: uppercase;
+  color: #6b45c6;
+  letter-spacing: 1px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.doctor-location{
+  color: #989795;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.DoctorCard_buttons {
+  max-width: 340px;
+  display: flex;
+    align-items: flex-end;
+    justify-content: unset;
+    flex-direction: row;
+    gap: 16px;
+    flex-grow: 1;
+    padding-top: 48px;
+}
+.DoctorCard_buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: unset;
+  flex-direction: column;
+  gap: 12px;
+  width: calc(50% - 8px);
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: calc(50% - 8px);
+}
+.DoctorCard_pricing {
+  display: flex;
+  align-items: center;
+  justify-content: unset;
+  flex-direction: row;
+  gap: 8px;
+}
+.fees{
+  font-weight: 700;
+  font-size: 16px;
+  color: #121414;
+}
+
+.DoctorCard_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  padding: 8px 16px;
+  min-width: 84px;
+  height: 48px;
+  font-size: 16px;
+    line-height: 24px;
+    background: #fff;
+    color: #106c89;
+    border: 1px solid #106c89;
+    width: 100%;
+    border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .doctor-card-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .doctor-card-img {
+    align-self: flex-start;
+  }
+
+  .doctor-detail p {
+    max-width: 100%;
+  }
+}
+.gap-bt{
+  margin-right: 10px;;
+}
+.consult-buttons span {
+  text-wrap: nowrap;
+}
+/* Form container */
+.search-form {
+  max-width: 600px;
+
+}
+
+/* Label styles */
+.form-label {
+  display: block;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--primary-main);
+}
+
+/* Input and select styles */
+.form-input, .form-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Placeholder styles */
+.form-input::placeholder {
+  color: #aaa;
+}
+
+/* Button styles */
+.form-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #0056b3;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.book-container {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+.sidebar {
+
+  background-color: #ffffff;
+  padding: 10px;
+  overflow-y: auto; /* Enable vertical scrollbar for the sidebar */
+  height: 100vh; /* Full viewport height */
+  position: sticky;
+  top: 0; /* Stick the sidebar to the top */
+}
+
+.main-content-doctor {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto; /* Enable vertical scrollbar for the main content */
+  height: 100vh; /* Full viewport height */
+}
+
+.doctor-list {
+  margin-bottom: 20px;
+}
+/* Custom Scrollbar Styles */
+
+/* For WebKit Browsers (Chrome, Safari, Edge) */
+.scrollable-container::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+  border-radius: 10px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background: #888; /* Thumb color */
+  border-radius: 10px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb color on hover */
+}
+
+/* For Firefox */
+.scrollable-container {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: #888 #f1f1f1; /* Thumb and track color */
+}
+
+/* Apply custom scrollbar styles to sidebar and main-content */
+.sidebar, .main-content {
+  overflow-y: auto; /* Ensure vertical scroll is enabled */
+}
+
+.DoctorCard_button:hover{
+  background-color: var(--primary-main);
+  color: #fff;
+  border: 1px solid var(--primary-main);
+}
+
+
+
+:root {
+  --primary-color: #2E3868;
+  --secondary-color: #18D5B9;
+}
+
+.doctor-detail {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: var(--primary-color);
+}
+
+.doctor-detail h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.doctor-detail p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--primary-color);
+}
+
+.doctor-detail p strong {
+  color: var(--secondary-color);
+}
+
+.doctor-detail img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.consult-buttons {
+  margin-top: 20px;
+}
+
+.consult-buttons button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.consult-buttons button:hover {
+  background-color: var(--secondary-color);
+}
+.back-link {
+  display: inline-block;
+  background-color: var(--primary-color); /* Use primary color for background */
+  color: #fff; /* White text for contrast */
+  text-decoration: none; /* Remove underline */
+  padding: 10px 20px; /* Add padding to make it look like a button */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Set font size */
+  font-weight: 600; /* Bold text */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  margin-top: 20px; /* Add margin to separate from content */
+}
+
+.back-link:hover {
+  background-color: var(--secondary-color); /* Change background on hover */
+  color: #fff; /* Ensure text stays white on hover */
+}
+
+.back-link:active {
+  background-color: #1c274f; /* Darker color for active state */
+}
+
+
+
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  right: -400px; /* Off-screen initially */
+  top: 0;
+  width: 400px; /* Increased width */
+  height: 100%;
+  background-color: #f1f1f1;
+  transition: right 0.3s ease;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+/* Sidebar open class */
+.sidebar.open {
+  right: 0;
+}
+
+/* Close button */
+.close-btn {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 10px; /* Aligns the button to the top right */
+  cursor: pointer;
+}
+.close-btn svg {
+  width: 24px;
+  height: 24px;
+  color: #333; /* Icon color */
+}
+
+
+/* Overlay Styles */
+.overlay {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.sidebar-content {
+  margin-top: 50px; /* Add margin to push content below the close button */
+  color: #333;
+}
+/* Overlay visible when sidebar is open */
+.overlay.visible {
+  display: block;
+}
