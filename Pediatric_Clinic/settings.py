@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'children',
     'doctors',
     'appointment',
-    'rest_framework'
+    'rest_framework',
+    'leaves'
 ]
 
 
@@ -142,12 +143,10 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 TWILIO_ACCOUNT_SID = 'AC24c4a8617a781434ab5f6efb8e816079'
-TWILIO_AUTH_TOKEN = '463b339435d7123c01927b6b19e36559'
+TWILIO_AUTH_TOKEN = '71b237e653cb731d8bec56ed5656c51b'
 TWILIO_WHATSAPP_FROM = 'whatsapp:+916367006928'

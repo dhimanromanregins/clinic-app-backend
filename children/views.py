@@ -27,19 +27,17 @@ class ChildListCreateView(APIView):
         serializer = ChildSerializer(children, many=True)
         return Response(serializer.data)
 
-    class ChildCreateView(APIView):
-        def post(self, request):
+class ChildCreateView(APIView):
+    def post(self, request):
+        if 'profile_picture' in request.data:
+            profile_picture = request.FILES.get('profile_picture')  # Use request.FILES for file uploads
+            request.data['profile_picture'] = profile_picture
 
-            # If the profile picture is coming as a file, you may want to handle it explicitly
-            if 'profile_picture' in request.data:
-                profile_picture = request.FILES.get('profile_picture')  # Use request.FILES for file uploads
-                request.data['profile_picture'] = profile_picture
-
-            serializer = ChildSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = ChildSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChildDetailView(APIView):
@@ -64,12 +62,10 @@ class ChildDetailView(APIView):
 
     def patch(self, request, child_id):
         child = self.get_object(child_id)
-        # Prepare data for the serializer
-        data = request.data.copy()  # Create a mutable copy of request.data
+        data = request.data.copy()
 
-        # Check if profile_picture is in the request and handle it
         if 'profile_picture' in request.FILES:
-            data['profile_picture'] = request.FILES['profile_picture']  # Use request.FILES for file uploads
+            data['profile_picture'] = request.FILES['profile_picture']
         print('data>>>>>', data)
         serializer = ChildSerializer(child, data=data, partial=True)
         print(data, '===========================')
