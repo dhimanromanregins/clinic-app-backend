@@ -128,9 +128,11 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles/")]
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880
 
 REST_FRAMEWORK = {
