@@ -63,16 +63,15 @@ class ChildDetailView(APIView):
     def patch(self, request, child_id):
         child = self.get_object(child_id)
         data = request.data.copy()
-
         if 'profile_picture' in request.FILES:
             data['profile_picture'] = request.FILES['profile_picture']
-        print('data>>>>>', data)
+        data = data.dict()
         serializer = ChildSerializer(child, data=data, partial=True)
+        print('data>>>>>', data)
         print(data, '===========================')
-
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            serializer.save() 
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, child_id):

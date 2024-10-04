@@ -11,6 +11,7 @@ class Leaves(models.Model):
     end_date = models.DateField()
     total_days = models.IntegerField(editable=False)
     reason = models.TextField()
+    approved = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.end_date < self.start_date:
@@ -23,3 +24,5 @@ class Leaves(models.Model):
     def __str__(self):
         return f"{self.name} - {self.type} ({self.start_date} to {self.end_date})"
 
+    class Meta:
+        verbose_name_plural = "leaves"

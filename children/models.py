@@ -29,8 +29,14 @@ class Child(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.child_id_number})"
 
+    class Meta:
+        verbose_name_plural = "Childern's"
+
 
 class Documents(models.Model):
     child = models.ForeignKey(Child, models.CASCADE, related_name='childern_document')
     Name = models.CharField(max_length=255)
     document = models.FileField()
+
+    class Meta:
+        verbose_name_plural = "Documents"

@@ -248,9 +248,7 @@ class ProfileDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request):
-        # Log incoming request data
         print("Incoming data:", request.data)
-
         profile = self.get_object(request)
         data = request.data.copy()
 
@@ -260,7 +258,15 @@ class ProfileDetailView(APIView):
 
         # Handle profile picture
         if 'profile_picture' in request.FILES:
-            flattened_data['profile_picture'] = request.FILES['profile_picture']
+            profile_picture = request.FILES['profile_picture']
+
+            # Check if it's a valid file
+            if hasattr(profile_picture, 'file') and profile_picture.size > 0:
+                flattened_data['profile_picture'] = profile_picture
+            else:
+                # If it's not a valid file, remove 'profile_picture' from flattened_data
+                print("Invalid file, profile picture will not be updated.")
+                flattened_data.pop('profile_picture', None)  # Don't send it to the serializer
 
         # Validate and format date_of_birth if present
         if 'date_of_birth' in flattened_data:
@@ -308,8 +314,8 @@ class ProfileDetailView(APIView):
                 'user': {
                     'first_name': profile.user.first_name,
                     'last_name': profile.user.last_name,
-                    'id_number':profile.user.id_number,
-                    'phone_number':profile.user.phone_number
+                    'id_number': profile.user.id_number,
+                    'phone_number': profile.user.phone_number
                 },
                 'date_of_birth': profile.date_of_birth,
                 'gender': profile.gender,

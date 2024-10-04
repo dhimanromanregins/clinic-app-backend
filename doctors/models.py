@@ -14,6 +14,8 @@ class DayOfWeek(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+        verbose_name_plural = "Week Days"
 
 class WorkingPeriod(models.Model):
     doctor = models.ForeignKey('Doctor', on_delete=models.CASCADE, related_name='working_periods')
@@ -27,6 +29,8 @@ class WorkingPeriod(models.Model):
         return (f"Doctor: {self.doctor.name}, Day: {self.day_of_week.name}, "
                 f"Morning: {self.morning_start} to {self.morning_end}, "
                 f"Afternoon: {self.afternoon_start} to {self.afternoon_end}")
+    class Meta:
+        verbose_name_plural = "Working Periods"
 
 
 class Language(models.Model):
@@ -34,6 +38,8 @@ class Language(models.Model):
 
     def __str__(self):
         return f"{self.language}"
+    class Meta:
+        verbose_name_plural = "Languages"
 
 class Doctor(models.Model):
     name = models.CharField(max_length=255)
@@ -50,6 +56,7 @@ class Doctor(models.Model):
     hospital_visit = models.BooleanField(default=False)
     price = models.BigIntegerField()
     is_available = models.BooleanField(default=True)
+
 
     
 
@@ -102,5 +109,8 @@ class Doctor(models.Model):
                 weekly_slots[day.name] = slots
 
         return weekly_slots
+
+    class Meta:
+        verbose_name_plural = "Doctors"
 
 
