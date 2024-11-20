@@ -9,5 +9,11 @@ urlpatterns = [
     path('profiles/', ProfileListCreateView.as_view(), name='profile-list-create'),
     path('api/profile/', ProfileDetailView.as_view(), name='profile-detail'),
     # path('profile/create/', ProfileListCreateView.as_view(), name='create_profile'),
+# Forgot Password
+    path('forgot-password/', ForgotPasswordAPIView.as_view(), name='forgot_password'),
+    path('verify-forgot-password-otp/', VerifyOtpForgotPasswordAPIView.as_view(), name='verify_forgot_password_otp'),
+    path('reset-password/', ResetPasswordAPIView.as_view(), name='reset_password'),
+# Banner Api
+    path('api/banners/', BannerListView.as_view(), name='banner-list'),
 ]
 

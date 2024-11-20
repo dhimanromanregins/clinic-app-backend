@@ -13,6 +13,7 @@ def generate_otp():
 
 
 def send_otp_via_whatsapp(phone_number):
+    print(phone_number, '-------------')
     otp = generate_otp()
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     message = client.messages.create(

@@ -34,6 +34,7 @@ class AvailableSlotsView(APIView):
                 start == slot[0] and end == slot[1] for start, end in booked_slots
             )
         ]
+        print(available_slots, '0000000000000000000000000')
         return Response({'available_slots': available_slots, 'selected_date': selected_date_str}, status=status.HTTP_200_OK)
 
 
@@ -42,9 +43,10 @@ class BookSlotView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = BookingSerializer(data=request.data)
+        print(request.data, '-------')
         if serializer.is_valid():
             # Create a booking
-            serializer.save(user=request.user)  # Assuming user is attached from request
+            serializer.save(user=request.user)
             return Response({'message': 'Slot booked successfully.'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -92,3 +94,28 @@ class UserBookingListView(APIView):
             response_data.append(booking_data)
 
         return Response(response_data)
+
+
+import hashlib
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.conf import settings
+from rest_framework import status
+
+class GenerateHashData(APIView):
+    def post(self, request):
+        try:
+            # Get 'hash' data from the request body
+            hash_data = request.data.get('hash', '')
+            salt = "dWwGvm4Bv5bEsQpZWVtheoJIZyYgZ68W"
+            data_to_hash = hash_data + salt
+
+            # Generate SHA-512 hash
+            hash_object = hashlib.sha512(data_to_hash.encode('utf-8'))
+            generated_hash = hash_object.hexdigest()
+
+            # Return the generated hash in a JSON response
+            return Response({"hash": generated_hash}, status=status.HTTP_200_OK)
+        except Exception as e:
+            # Handle errors and return appropriate response
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

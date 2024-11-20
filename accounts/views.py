@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .utils import generate_jwt_token,send_otp_in_background,send_otp_via_whatsapp
 from .decorators import auth_check
 from django.db import IntegrityError
+from django.contrib.auth.hashers import check_password
 from datetime import datetime
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render, redirect
@@ -10,7 +11,7 @@ from django.contrib import messages
 from rest_framework.views import APIView
 from children.forms import ChildForm
 from children.models import Child
-from .models import CustomUser, Profile
+from .models import CustomUser, Profile, Banner
 from rest_framework.response import Response
 from datetime import timedelta
 from django.utils.decorators import method_decorator
@@ -26,7 +27,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from .serializers import CustomUserSerializer, OTPVerificationSerializer, LoginSerializer,ProfileSerializer
+from .serializers import CustomUserSerializer, BannerSerializer,OTPVerificationSerializer, LoginSerializer,ProfileSerializer
 
 
 def send_otp(request):
@@ -80,11 +81,12 @@ class RegisterView(APIView):
             otp = send_otp_via_whatsapp(phone_number)
             request.session['otp'] = otp
             request.session['phone_number'] = phone_number
-            
+            print("121222222222222222222222222222222")
             return Response(
                 {'message': f'OTP sent to {phone_number}. Please verify to complete registration.'},
                 status=status.HTTP_201_CREATED
             )
+        print("00000000000000000000000000000000000000000")
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -104,12 +106,24 @@ class VerifyOtpAPIView(APIView):
 
                 if serializer.is_valid():
                     try:
-                        user = serializer.save()
+                        user = CustomUser(
+                            phone_number=serializer.validated_data['phone_number'],
+                            id_number=serializer.validated_data['id_number'],
+                            first_name=serializer.validated_data['first_name'],
+                            last_name=serializer.validated_data['last_name']
+                        )
+                        # Use `set_password` to securely save the password
+                        user.set_password(serializer.validated_data['password'])
+                        user.save()
+
+                        # Create the associated profile
                         Profile.objects.create(user=user)
+
+                        # Generate JWT tokens
                         refresh = RefreshToken.for_user(user)
                         access_token = str(refresh.access_token)
 
-                        # Clear the session data after successful registration
+                        # Clear session data after successful registration
                         request.session.pop('otp', None)
                         request.session.pop('registration_data', None)
                         request.session['user_id'] = user.id
@@ -121,8 +135,7 @@ class VerifyOtpAPIView(APIView):
                             'refresh_token': str(refresh)
                         }, status=status.HTTP_201_CREATED)
 
-                    except IntegrityError as e:
-                        # Handle the integrity error gracefully
+                    except IntegrityError:
                         return Response({
                             'error': 'A user with this phone number already exists. Please log in.'
                         }, status=status.HTTP_400_BAD_REQUEST)
@@ -143,28 +156,38 @@ class LoginAPIView(APIView):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             identifier = serializer.validated_data['identifier']
-            phone_number = None
+            password = serializer.validated_data.get('password')  # Get the password from request
 
-            if len(identifier) == 12:
-                try:
-                    user = CustomUser.objects.get(phone_number=identifier)
-                    phone_number = user.phone_number
-                except CustomUser.DoesNotExist:
-                    return Response({'error': 'Phone number not found.'}, status=status.HTTP_404_NOT_FOUND)
-            elif len(identifier) == 18:
-                try:
-                    user = CustomUser.objects.get(id_number=identifier)
-                    phone_number = user.phone_number
-                except CustomUser.DoesNotExist:
-                    return Response({'error': 'UAE ID not found.'}, status=status.HTTP_404_NOT_FOUND)
+            if not password:
+                return Response({'error': 'Password is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            user = None
+
+            # Check if identifier is a phone number or an ID number
+            if len(identifier) == 12:  # Phone number
+                user = CustomUser.objects.filter(phone_number=identifier).first()
+            elif len(identifier) == 18:  # ID number
+                user = CustomUser.objects.filter(id_number=identifier).first()
             else:
                 return Response({'error': 'Invalid identifier format.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            otp = send_otp_via_whatsapp(phone_number)
-            request.session['otp'] = otp
-            request.session['phone_number'] = phone_number
+            if user:  # User found
+                # Use `check_password` to verify the hashed password
+                if check_password(password, user.password):
+                    phone_number = user.phone_number
+                    otp = send_otp_via_whatsapp(phone_number)
+                    request.session['otp'] = otp
+                    request.session['phone_number'] = phone_number
 
-            return Response({'phone_number':phone_number,'status':True,'message': f'OTP sent to {phone_number}. Please verify to complete login.'}, status=status.HTTP_200_OK)
+                    return Response({
+                        'phone_number': phone_number,
+                        'status': True,
+                        'message': f'OTP sent to {phone_number}. Please verify to complete login.'
+                    }, status=status.HTTP_200_OK)
+                else:
+                    return Response({'error': 'Invalid password.'}, status=status.HTTP_401_UNAUTHORIZED)
+            else:
+                return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -338,3 +361,81 @@ class ProfileDetailView(APIView):
         profile = self.get_object(user_id)
         profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class ForgotPasswordAPIView(APIView):
+    permission_classes = []
+
+    def post(self, request):
+        phone_number = request.data.get('phone_number')
+
+        if not phone_number:
+            return Response({'error': 'Phone number is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = CustomUser.objects.filter(phone_number=phone_number).first()
+
+        if not user:
+            return Response({'error': 'User with this phone number does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Generate OTP and send via WhatsApp
+        otp = send_otp_via_whatsapp(phone_number)  # Use your OTP sending logic
+        request.session['otp'] = otp
+        request.session['phone_number'] = phone_number
+
+        return Response({
+            'status': True,
+            'message': f'OTP sent to {phone_number}. Please verify to reset your password.'
+        }, status=status.HTTP_200_OK)
+
+class VerifyOtpForgotPasswordAPIView(APIView):
+    def post(self, request):
+        input_otp = request.data.get('otp')
+        saved_otp = request.session.get('otp')
+        phone_number = request.session.get('phone_number')
+
+        if not input_otp or not phone_number:
+            return Response({'error': 'OTP and phone number are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if input_otp == str(saved_otp):
+            return Response({
+                'status': True,
+                'message': 'OTP verified. You can now reset your password.'
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ResetPasswordAPIView(APIView):
+    def post(self, request):
+        phone_number = request.session.get('phone_number')
+        new_password = request.data.get('new_password')
+
+        if not phone_number or not new_password:
+            return Response({'error': 'Phone number and new password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = CustomUser.objects.filter(phone_number=phone_number).first()
+
+        if not user:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Update the password
+        user.set_password(new_password)
+        user.save()
+
+        # Clear session data
+        request.session.flush()
+
+        return Response({
+            'status': True,
+            'message': 'Password reset successful.'
+        }, status=status.HTTP_200_OK)
+
+class BannerListView(APIView):
+    """
+    API View to get all banners.
+    """
+    def get(self, request, *args, **kwargs):
+        banners = Banner.objects.all()
+        serializer = BannerSerializer(banners, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

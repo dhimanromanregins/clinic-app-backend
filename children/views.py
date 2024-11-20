@@ -19,24 +19,39 @@ class ChildListCreateView(APIView):
 
     def get(self, request):
         parent_id = request.user.id
-        if parent_id:
-            children = Child.objects.filter(parent_id=parent_id)
+        print(parent_id, '================')
+
+        # Check if parent_id exists
+        if parent_id is not None:
+            children = Child.objects.filter(parent=parent_id)
+            print(children, '00000000000')
         else:
             children = Child.objects.none()
 
+        # Serialize the data
         serializer = ChildSerializer(children, many=True)
         return Response(serializer.data)
 
+
 class ChildCreateView(APIView):
     def post(self, request):
-        if 'profile_picture' in request.data:
-            profile_picture = request.FILES.get('profile_picture')  # Use request.FILES for file uploads
-            request.data['profile_picture'] = profile_picture
+        print(request.data, '-------------------------------')
 
+        # Ensure the parent field is set to the logged-in user (request.user)
+        request.data['parent'] = request.user.id
+
+        # Serialize the data
         serializer = ChildSerializer(data=request.data)
+
+        # Check if the serializer data is valid
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        # Log validation errors if serializer is invalid
+        print('Validation errors:', serializer.errors)
+
+        # Return the error responses
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

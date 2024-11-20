@@ -1,13 +1,14 @@
 from rest_framework import serializers
-from .models import CustomUser, Profile
+from .models import CustomUser, Profile, Banner
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    phone_number = serializers.CharField()  # Make phone_number writable
+    phone_number = serializers.CharField()
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'phone_number', 'id_number']
+        fields = ['first_name', 'last_name', 'phone_number', 'id_number','password']
+
 
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
@@ -22,18 +23,17 @@ class CustomUserSerializer(serializers.ModelSerializer):
         if not phone_number.isdigit():
             raise serializers.ValidationError('Phone number must contain only digits.')
 
-        # Check if the phone number starts with '91' and correct it if not
+        # Check if the phone number starts with '91' and add it if not
         if not phone_number.startswith('91'):
             phone_number = '91' + phone_number
 
-        # Validate length
+        # Validate length: Country code (2) + 10 digits = 12
         if len(phone_number) != 12:
             raise serializers.ValidationError('Phone number must be 10 digits long, excluding the country code.')
 
         # Check if the phone number already exists in the database
         if CustomUser.objects.filter(phone_number=phone_number).exists():
             raise serializers.ValidationError('Phone number already exists. Try logging in.')
-
         return phone_number
 
     def validate_id_number(self, id_number):
@@ -56,6 +56,7 @@ class OTPVerificationSerializer(serializers.Serializer):
 
 class LoginSerializer(serializers.Serializer):
     identifier = serializers.CharField(max_length=18)  # 12 for phone, 18 for ID
+    password = serializers.CharField(write_only=True)
 
     def validate_identifier(self, value):
         if len(value) != 12 and len(value) != 18:
@@ -85,3 +86,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+
+class BannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banner
+        fields = '__all__'

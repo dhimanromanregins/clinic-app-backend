@@ -17,7 +17,7 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = ['doctor', 'child', 'slot_start', 'slot_end', 'date']
+        fields = ['doctor', 'children_names', 'slot_start', 'slot_end', 'date', 'type']
 
         def validate(self, data):
             if Booking.objects.filter(

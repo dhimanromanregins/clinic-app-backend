@@ -38,6 +38,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=True)
 
+    # Password field is provided by AbstractBaseUser, but you can add a custom password field if desired
+    password = models.CharField(max_length=255)
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'phone_number'
@@ -67,3 +70,6 @@ class Profile(models.Model):
 
 
 
+
+class Banner(models.Model):
+    image = models.ImageField(upload_to='banners/', verbose_name='Banner Image')

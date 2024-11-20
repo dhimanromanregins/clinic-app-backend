@@ -51,6 +51,7 @@ class Doctor(models.Model):
     hospital_name = models.CharField(max_length=255)
     education = models.CharField(max_length=255)
     registration_id = models.CharField(max_length=255)
+    email = models.EmailField(null=True, blank=True)
     profile_photo = models.ImageField(upload_to='doctors_images/', null=True, blank=True)
     digital_consult = models.BooleanField(default=False)
     hospital_visit = models.BooleanField(default=False)
@@ -81,6 +82,8 @@ class Doctor(models.Model):
             slots.append((slot_start, slot_end))
             current_time += timedelta(minutes=30)
 
+        print(slots, '---------')
+
         return slots
 
     def generate_slots_for_day(self, day_of_week):
@@ -96,7 +99,7 @@ class Doctor(models.Model):
 
             if period.afternoon_start and period.afternoon_end:
                 slots.extend(self.generate_slots_for_period(period.afternoon_start, period.afternoon_end))
-
+        print(slots, '1111111111111111111111')
         return slots
 
     def generate_weekly_slots(self):
