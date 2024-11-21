@@ -60,7 +60,7 @@ class Profile(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GenderChoices.choices, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

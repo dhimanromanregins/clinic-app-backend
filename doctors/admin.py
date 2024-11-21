@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Doctor, Location, DayOfWeek, WorkingPeriod, Language
+from .models import Doctor, Location, DayOfWeek, WorkingPeriod, Language, TeleDoctor
 # Register your models here.
 from .forms import DoctorForm
 
@@ -27,3 +27,4 @@ admin.site.register(Location)
 admin.site.register(DayOfWeek)
 admin.site.register(WorkingPeriod)
 admin.site.register(Language)
+admin.site.register(TeleDoctor)

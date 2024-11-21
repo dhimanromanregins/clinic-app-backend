@@ -3,14 +3,15 @@ from django.shortcuts import render, get_object_or_404
 
 from rest_framework import status
 
-
-
+from datetime import datetime
+from rest_framework.permissions import IsAuthenticated
 
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Doctor, Location, Language, DayOfWeek
-from .serializers import DoctorSerializer
+from .models import Doctor, Location, Language, DayOfWeek,TeleDoctor,WorkingPeriod
+from accounts.models import CustomUser
+from .serializers import DoctorSerializer,TeleDoctorSerializer, WorkingPeriodSerializer
 import time
 
 class DoctorListView(APIView):
@@ -97,5 +98,60 @@ class DoctorDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class CreateTeleDoctorAPIView(APIView):
+    # Ensure that the user is authenticated
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        doctor_id = request.data.get('doctor_id')
+
+        # Get the user_id from the authenticated user
+        user_id = request.user.id  # This will give you the user ID of the authenticated user
+
+        print(request.data, "99999999999999999", doctor_id, user_id)
+
+        if not doctor_id or not user_id:
+            return Response({'error': 'doctor_id and user_id are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Get the doctor using the doctor_id
+            doctor = Doctor.objects.get(id=doctor_id)
+
+            # Get the user using the user_id (this comes from the request.user)
+            user = CustomUser.objects.get(id=user_id)
+
+            # Create TeleDoctor instance
+            tele_doctor = TeleDoctor.objects.create(doctor=doctor, user=user)
+
+            # Serialize the TeleDoctor instance
+            serializer = TeleDoctorSerializer(tele_doctor)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        except Doctor.DoesNotExist:
+            return Response({'error': 'Doctor not found'}, status=status.HTTP_404_NOT_FOUND)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
+class DoctorAvailabilityAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        date_str = request.query_params.get('date')  # Get the date from query params
+        if not date_str:
+            return Response({"error": "Date is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d')  # Parse the date
+        except ValueError:
+            return Response({"error": "Invalid date format. Use YYYY-MM-DD"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Get the day of the week (0 = Monday, 6 = Sunday)
+        day_of_week = date_obj.weekday() + 1  # Adjust for 1-indexed DayOfWeek model
+
+        # Filter WorkingPeriods for the given day
+        working_periods = WorkingPeriod.objects.filter(day_of_week__id=day_of_week)
+
+        # Serialize the filtered data
+        serializer = WorkingPeriodSerializer(working_periods, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

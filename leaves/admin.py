@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Leaves
+from .models import Leaves,SickLeaveRequestView,SickLeaveRecords,ParentSickLeave,ParentSickLeaveHistory,ToWhomItMayCocern
 # Register your models here.
 
 admin.site.register(Leaves)
+admin.site.register(SickLeaveRequestView)
+admin.site.register(SickLeaveRecords)
+admin.site.register(ParentSickLeave)
+admin.site.register(ParentSickLeaveHistory)
+admin.site.register(ToWhomItMayCocern)

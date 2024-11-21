@@ -1,6 +1,9 @@
 from django.db import models
 from datetime import timedelta, datetime
 
+from accounts.models import CustomUser
+
+
 # Create your models here.
 
 class Location(models.Model):
@@ -115,5 +118,26 @@ class Doctor(models.Model):
 
     class Meta:
         verbose_name_plural = "Doctors"
+
+
+class TeleDoctor(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    doctors_name = models.CharField(max_length=255, blank=True)  # Leave it blank initially
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    parent_name = models.CharField(max_length=255, blank=True)  # Leave it blank initially
+
+    def save(self, *args, **kwargs):
+        # Dynamically set the doctor's name from the related Doctor object
+        if self.doctor:
+            self.doctors_name = self.doctor.name  # Assuming 'name' field exists in Doctor model
+
+        # Dynamically set the parent's name from the related CustomUser object
+        if self.user:
+            self.parent_name = f'{self.user.first_name} {self.user.last_name}'  # Assuming these fields exist in CustomUser
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"TeleDoctor with {self.doctors_name} and parent {self.parent_name}"
 
 

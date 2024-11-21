@@ -8,6 +8,10 @@ class ChildSerializer(serializers.ModelSerializer):
 
 
 class DocumentsSerializer(serializers.ModelSerializer):
+    document_url = serializers.SerializerMethodField()
     class Meta:
         model = Documents
-        fields = '__all__'
+        fields = fields = ['id', 'child', 'document', 'Name', 'document_url']
+
+    def get_document_url(self, obj):
+        return f"http://192.168.1.111:8001{obj.document.url}"

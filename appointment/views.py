@@ -86,10 +86,6 @@ class UserBookingListView(APIView):
                     "specialty":booking.doctor.specialty
 
                 },
-                'child': {
-                    'id':booking.child.id,
-                    'name': booking.child.first_name + ' ' +  booking.child.first_name,  # Assuming booking has a child field
-                }
             }
             response_data.append(booking_data)
 

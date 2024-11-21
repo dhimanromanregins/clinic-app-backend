@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from accounts.models import CustomUser
+from children.models import Child
+from django.utils import timezone
 # Create your models here.
 
 class Leaves(models.Model):
@@ -26,3 +28,44 @@ class Leaves(models.Model):
 
     class Meta:
         verbose_name_plural = "leaves"
+
+
+class SickLeaveRequestView(models.Model):
+    children = models.ForeignKey(Child, on_delete=models.CASCADE)
+    to = models.CharField(max_length=255)
+    sender = models.CharField(max_length=255)
+
+
+class SickLeaveRecords(models.Model):
+    children = models.ForeignKey(Child, on_delete=models.CASCADE)
+    document = models.FileField(upload_to='sick_leave_documents/')
+    created_date = models.DateTimeField(auto_now_add=True)
+    leave_request_date = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return f"Sick leave record for {self.children}"
+
+
+class ParentSickLeave(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    child_name = models.TextField()
+    sent_to = models.CharField(max_length=255)
+    sender = models.CharField(max_length=255)
+
+class ParentSickLeaveHistory(models.Model):
+    parent = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    document = models.FileField(upload_to='sick_leave_documents/')
+    created_date = models.DateTimeField(auto_now_add=True)
+    leave_request_date = models.DateField(default=timezone.now)
+
+
+class ToWhomItMayCocern(models.Model):
+    concern = models.CharField(max_length=255)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    child_name = models.TextField()
+    sent_to = models.CharField(max_length=255)
+    sender = models.CharField(max_length=255)
+    additional_notes = models.TextField()
+
+
+

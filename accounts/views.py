@@ -157,7 +157,7 @@ class LoginAPIView(APIView):
         if serializer.is_valid():
             identifier = serializer.validated_data['identifier']
             password = serializer.validated_data.get('password')  # Get the password from request
-
+            print(identifier, password, '------------')
             if not password:
                 return Response({'error': 'Password is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -296,14 +296,14 @@ class ProfileDetailView(APIView):
             flattened_data['date_of_birth'] = flattened_data['date_of_birth'].strip()
             try:
                 # Ensure the date format is correct
-                datetime.strptime(flattened_data['date_of_birth'], '%Y-%m-%d')
+                flattened_data['date_of_birth'] = datetime.strptime(flattened_data['date_of_birth'], '%Y-%m-%d').date()
             except ValueError:
                 return Response(
                     {'date_of_birth': ['Invalid date format. Use YYYY-MM-DD.']},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-        # Update the user fields (first_name, last_name) inside the request data if present
+        # Update the user fields (first_name, last_name, phone_number, id_number) inside the request data if present
         user_data = {}
         if 'first_name' in flattened_data:
             user_data['first_name'] = flattened_data.pop('first_name')
