@@ -1,4 +1,3 @@
-from distutils.command.build import build
 
 from django.db import models
 from accounts.models import CustomUser
