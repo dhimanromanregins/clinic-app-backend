@@ -2,10 +2,12 @@
 
 from twilio.rest import Client
 from django.conf import settings
+import requests
 import random
 import jwt
 import datetime
 import multiprocessing
+import  json
 
 
 def generate_otp():
@@ -40,6 +42,25 @@ def generate_jwt_token(user):
     }
     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
     return token
+
+
+def send_expo_push_notification(message):
+    url = "https://exp.host/--/api/v2/push/send"
+    headers = {
+        "Accept": "application/json",
+        "Accept-Language": "en",
+        "Content-Type": "application/json",
+    }
+
+    try:
+        response = requests.post(url, headers=headers, data=json.dumps(message))
+        response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
+        return response.json()  # Return the JSON response
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+        return None
+
+
 
 
 

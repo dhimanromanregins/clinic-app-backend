@@ -37,6 +37,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=True)
+    device_token = models.CharField(max_length=255, null=True, blank=True)
 
     # Password field is provided by AbstractBaseUser, but you can add a custom password field if desired
     password = models.CharField(max_length=255)
@@ -73,3 +74,10 @@ class Profile(models.Model):
 
 class Banner(models.Model):
     image = models.ImageField(upload_to='banners/', verbose_name='Banner Image')
+
+
+class Notifications(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    bosy = models.TextField()
+    is_read = models.BooleanField(default=False)

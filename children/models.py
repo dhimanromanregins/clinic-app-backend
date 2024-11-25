@@ -2,6 +2,10 @@ from distutils.command.build import build
 
 from django.db import models
 from accounts.models import CustomUser
+from django.db.models.signals import post_save
+from accounts.utils import send_expo_push_notification
+from django.dispatch import receiver
+from accounts.models import Notifications
 # Create your models here.
 
 
@@ -46,4 +50,29 @@ class Documents(models.Model):
     class Meta:
         verbose_name_plural = "Documents"
 
+@receiver(post_save, sender=Documents)
+def notify_document_added(sender, instance, created, **kwargs):
+    if created:
+        user = instance.child.parent
+        device_token = user.device_token
+
+        if device_token:
+            message_payload = {
+                "to": device_token,
+                "title": "New Document Added",
+                "body": f"A new document '{instance.Name}' has been added for child Name {instance.child.full_name}.",
+            }
+            response = send_expo_push_notification(message_payload)
+            if response and response.get("data"):
+                Notifications.objects.create(
+                    user=user,
+                    title=message_payload["title"],
+                    bosy=message_payload["body"],
+                )
+                print(f"Notification saved for user: {user}")
+            else:
+                print(f"Failed to send notification. Response: {response}")
+            print(response)
+        else:
+            print(f"No device token found for user: {user}")
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Profile, Banner
+from .models import CustomUser, Profile, Banner, Notifications
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -7,7 +7,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'phone_number', 'id_number','password']
+        fields = ['first_name', 'last_name', 'phone_number', 'id_number','password', 'devive_token']
 
 
     def update(self, instance, validated_data):
@@ -24,8 +24,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Phone number must contain only digits.')
 
         # Check if the phone number starts with '91' and add it if not
-        if not phone_number.startswith('91'):
-            phone_number = '91' + phone_number
+        if not phone_number.startswith('971'):
+            phone_number = '971' + phone_number
 
         # Validate length: Country code (2) + 10 digits = 12
         if len(phone_number) != 12:
@@ -93,3 +93,9 @@ class BannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Banner
         fields = '__all__'
+
+
+class NotificationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notifications
+        fields = ['id', 'title', 'bosy', 'is_read']

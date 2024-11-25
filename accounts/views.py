@@ -11,7 +11,7 @@ from django.contrib import messages
 from rest_framework.views import APIView
 from children.forms import ChildForm
 from children.models import Child
-from .models import CustomUser, Profile, Banner
+from .models import CustomUser, Profile, Banner, Notifications
 from rest_framework.response import Response
 from datetime import timedelta
 from django.utils.decorators import method_decorator
@@ -27,7 +27,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from .serializers import CustomUserSerializer, BannerSerializer,OTPVerificationSerializer, LoginSerializer,ProfileSerializer
+from .serializers import CustomUserSerializer, BannerSerializer,NotificationsSerializer,OTPVerificationSerializer, LoginSerializer,ProfileSerializer
 
 
 def send_otp(request):
@@ -77,16 +77,13 @@ class RegisterView(APIView):
         if serializer.is_valid():
             request.session['registration_data'] = serializer.validated_data
             registration_data = request.session.get('registration_data')
-            print(registration_data, ')))))))))))))))))))')
             otp = send_otp_via_whatsapp(phone_number)
             request.session['otp'] = otp
             request.session['phone_number'] = phone_number
-            print("121222222222222222222222222222222")
             return Response(
                 {'message': f'OTP sent to {phone_number}. Please verify to complete registration.'},
                 status=status.HTTP_201_CREATED
             )
-        print("00000000000000000000000000000000000000000")
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -148,6 +145,18 @@ class VerifyOtpAPIView(APIView):
         else:
             return Response({'error': 'Invalid OTP. Please try again.'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class UpdateUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        serializer = CustomUserSerializer(user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginAPIView(APIView):
     permission_classes = []
@@ -439,3 +448,35 @@ class BannerListView(APIView):
         banners = Banner.objects.all()
         serializer = BannerSerializer(banners, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserNotificationsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Get the authenticated user
+        user = request.user
+
+        # Retrieve notifications for the user
+        notifications = Notifications.objects.filter(user=user).order_by('-id')  # Order by most recent
+
+        # Serialize the data
+        serializer = NotificationsSerializer(notifications, many=True)
+
+        return Response(serializer.data)
+
+class NotificationUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        try:
+            # Fetch the notification for the authenticated user
+            notification = Notifications.objects.get(id=pk, user=request.user)
+
+            # Partial update with the request data
+            serializer = NotificationsSerializer(notification, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Notifications.DoesNotExist:
+            return Response({"error": "Notification not found"}, status=status.HTTP_404_NOT_FOUND)
