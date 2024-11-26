@@ -7,7 +7,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'phone_number', 'id_number','password', 'devive_token']
+        fields = ['first_name', 'last_name', 'phone_number', 'id_number','password', 'device_token']
 
 
     def update(self, instance, validated_data):
@@ -18,7 +18,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     def validate_phone_number(self, phone_number):
         print(phone_number, 'Processing phone number validation.')
-
         # Ensure the phone number contains only digits
         if not phone_number.isdigit():
             raise serializers.ValidationError('Phone number must contain only digits.')
@@ -28,7 +27,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             phone_number = '971' + phone_number
 
         # Validate length: Country code (2) + 10 digits = 12
-        if len(phone_number) != 12:
+        if len(phone_number) != 13:
             raise serializers.ValidationError('Phone number must be 10 digits long, excluding the country code.')
 
         # Check if the phone number already exists in the database
@@ -59,8 +58,8 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate_identifier(self, value):
-        if len(value) != 12 and len(value) != 18:
-            raise serializers.ValidationError("Identifier must be either 12 (phone) or 18 (ID) characters long.")
+        if len(value) != 13 and len(value) != 8:
+            raise serializers.ValidationError("Identifier must be either 13 (phone) or 18 (ID) characters long.")
         return value
 
 

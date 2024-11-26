@@ -6,8 +6,8 @@ class DoctorForm(forms.ModelForm):
     class Meta:
         model = Doctor
         fields = ['name', 'specialty', 'location', 'experience', 'about', 'hospital_name',
-                  'education', 'registration_id', 'profile_photo', 'digital_consult',
-                  'hospital_visit', 'price', 'is_available', 'languages']
+                  'education', 'registration_id', 'profile_photo', 'tele_medicine_doctor',
+                  'hospital_visit', 'is_available', 'languages']
 
 
 class WorkingPeriodForm(forms.ModelForm):

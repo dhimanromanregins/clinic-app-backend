@@ -172,10 +172,9 @@ class LoginAPIView(APIView):
 
             user = None
 
-            # Check if identifier is a phone number or an ID number
-            if len(identifier) == 12:  # Phone number
+            if len(identifier) == 13:  # Phone number
                 user = CustomUser.objects.filter(phone_number=identifier).first()
-            elif len(identifier) == 18:  # ID number
+            elif len(identifier) == 8:  # ID number
                 user = CustomUser.objects.filter(id_number=identifier).first()
             else:
                 return Response({'error': 'Invalid identifier format.'}, status=status.HTTP_400_BAD_REQUEST)

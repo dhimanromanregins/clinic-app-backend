@@ -82,6 +82,7 @@ class ParentSickLeaveHistoryList(APIView):
         Get the list of parent sick leave history.
         """
         sick_leave_history = ParentSickLeaveHistory.objects.filter(parent=request.user)
+        print(sick_leave_history, '-------------')
         serializer = ParentSickLeaveHistorySerializer(sick_leave_history, many=True)
         return Response(serializer.data)
 

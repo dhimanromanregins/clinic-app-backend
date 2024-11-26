@@ -28,8 +28,8 @@ class DoctorSerializer(serializers.ModelSerializer):
         model = Doctor
         fields = [
             'id', 'name', 'specialty', 'experience', 'about', 'hospital_name',
-            'education', 'registration_id', 'profile_photo', 'digital_consult',
-            'hospital_visit', 'price', 'is_available', 'location', 'languages'
+            'education', 'registration_id', 'profile_photo',
+            'hospital_visit', 'is_available', 'location', 'languages','tele_medicine_doctor'
         ]
 
 

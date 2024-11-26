@@ -56,9 +56,9 @@ class Doctor(models.Model):
     registration_id = models.CharField(max_length=255)
     email = models.EmailField(null=True, blank=True)
     profile_photo = models.ImageField(upload_to='doctors_images/', null=True, blank=True)
-    digital_consult = models.BooleanField(default=False)
+    tele_medicine_doctor = models.BooleanField(default=False)
     hospital_visit = models.BooleanField(default=False)
-    price = models.BigIntegerField()
+    price = models.BigIntegerField(default=0)
     is_available = models.BooleanField(default=True)
 
 

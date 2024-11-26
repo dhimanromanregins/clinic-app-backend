@@ -155,3 +155,9 @@ class DoctorAvailabilityAPIView(APIView):
         serializer = WorkingPeriodSerializer(working_periods, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AvailableTeleMedicineDoctorsView(APIView):
+    def get(self, request):
+        doctors = Doctor.objects.filter(tele_medicine_doctor=True)
+        serializer = DoctorSerializer(doctors, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

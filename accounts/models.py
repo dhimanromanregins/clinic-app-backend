@@ -39,6 +39,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=True)
     device_token = models.CharField(max_length=255, null=True, blank=True)
 
+
     # Password field is provided by AbstractBaseUser, but you can add a custom password field if desired
     password = models.CharField(max_length=255)
 
