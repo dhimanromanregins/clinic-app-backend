@@ -61,8 +61,8 @@ class TeleDoctorSerializer(serializers.ModelSerializer):
 
 
 class WorkingPeriodSerializer(serializers.ModelSerializer):
-    doctor = DoctorSerializer()  # This will serialize the full doctor details
-    day = serializers.CharField(source='day_of_week.name')  # Serialize the day name from the DayOfWeek model
+    doctor = DoctorSerializer()
+    day = serializers.CharField(source='day_of_week.name')
 
     class Meta:
         model = WorkingPeriod
