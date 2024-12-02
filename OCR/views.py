@@ -11,11 +11,13 @@ def extract_urn_number_from_pdf(pdf_path, target_text):
             page = pdf_reader.pages[page_num]
             extracted_text += page.extract_text()
 
-        print("Extracted Text:\n", extracted_text)
+        # Normalize the text: remove excessive spaces and line breaks
+        normalized_text = re.sub(r'\s+', ' ', extracted_text)
+        print("Normalized Extracted Text:\n", normalized_text)
 
         # Regular expression to find the six-digit number after 'URN'
-        pattern = fr"{target_text}\s*(\d{{6}})"
-        match = re.search(pattern, extracted_text)
+        pattern = fr"{re.escape(target_text)}\s*-\s*(\d{{7}})"
+        match = re.search(pattern, normalized_text)
 
         if match:
             urn_number = match.group(1)
@@ -25,7 +27,6 @@ def extract_urn_number_from_pdf(pdf_path, target_text):
             print(f"No six-digit number found after '{target_text}'.")
             return None
 
-
-pdf_path = "/home/sahil/Music/Pediatric_Clinic/OCR/URN.pdf"
+pdf_path = "/home/sahil/Downloads/Document 12.pdf"
 target_text = "URN"
 extract_urn_number_from_pdf(pdf_path, target_text)

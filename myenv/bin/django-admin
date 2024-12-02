@@ -1,4 +1,4 @@
-#!/home/sahil/Music/Pediatric_Clinic/myenv/bin/python3
+#!/home/sahil/Videos/clinic-app-backend/myenv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

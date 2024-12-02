@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .utils import generate_jwt_token,send_otp_in_background,send_otp_via_whatsapp
 from .decorators import auth_check
 from django.db import IntegrityError
+from rest_framework.exceptions import NotFound
 from django.contrib.auth.hashers import check_password
 from datetime import datetime
 from django.contrib.auth import authenticate, login as auth_login
@@ -479,3 +480,41 @@ class NotificationUpdateAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Notifications.DoesNotExist:
             return Response({"error": "Notification not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+class ProfileUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_user_profile(self, user):
+        """
+        Get the user's profile. Raises NotFound if the profile doesn't exist.
+        """
+        try:
+            return Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            raise NotFound("Profile not found")
+
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        profile = self.get_user_profile(user)
+
+        # Serialize both the user and profile data
+        user_serializer = CustomUserSerializer(user, data=request.data, partial=True)
+        profile_serializer = ProfileSerializer(profile, data=request.data, partial=True)
+
+        if user_serializer.is_valid() and profile_serializer.is_valid():
+            # Save both the user and profile data
+            user_serializer.save()
+            profile_serializer.save()
+
+            return Response({
+                'user': user_serializer.data,
+                'profile': profile_serializer.data
+            }, status=status.HTTP_200_OK)
+
+        # If either serializer is invalid, return errors
+        return Response({
+            'user_errors': user_serializer.errors,
+            'profile_errors': profile_serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)

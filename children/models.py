@@ -42,9 +42,24 @@ class Child(models.Model):
 
 
 class Documents(models.Model):
+    CATEGORY_CHOICES = [
+        ('medical_report', 'Medical Report'),
+        ('sick_leave', 'Sick Leave'),
+        ('parent_sick_leave', 'Parent Sick Leave'),
+        ('prescription', 'Prescription'),
+        ('lab_report', 'Lab Report'),
+    ]
     child = models.ForeignKey(Child, models.CASCADE, related_name='childern_document')
     Name = models.CharField(max_length=255)
     document = models.FileField()
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='medical_report',  # Default value
+    )
+
+    def __str__(self):
+        return f"{self.child} ({self.document})"
 
     class Meta:
         verbose_name_plural = "Documents"

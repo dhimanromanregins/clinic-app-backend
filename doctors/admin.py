@@ -28,6 +28,28 @@ class DoctorsAdmin(admin.ModelAdmin):
 admin.site.register(Doctor, DoctorsAdmin)
 admin.site.register(Location)
 admin.site.register(DayOfWeek)
-admin.site.register(WorkingPeriod)
+class WorkingPeriodAdmin(admin.ModelAdmin):
+    # Display fields in the list view
+    list_display = (
+        'doctor', 'day_of_week',
+        'morning_start', 'morning_end',
+        'afternoon_start', 'afternoon_end'
+    )
+
+    # Enable filtering in the admin sidebar
+    list_filter = (
+        'doctor', 'day_of_week',
+        'morning_start', 'morning_end',
+        'afternoon_start', 'afternoon_end',
+    )
+
+    # Enable searching for doctors by their name
+    search_fields = ('doctor__name',)  # Assuming Doctor model has a 'name' field
+
+    # Optional: Ordering of records in the admin list view
+    ordering = ('doctor', 'day_of_week')
+
+# Register the WorkingPeriod model with the customized admin class
+admin.site.register(WorkingPeriod, WorkingPeriodAdmin)
 admin.site.register(Language)
 admin.site.register(TeleDoctor)

@@ -1,8 +1,6 @@
 from django.db import models
 from datetime import timedelta, datetime
-
 from accounts.models import CustomUser
-
 
 # Create your models here.
 
@@ -14,11 +12,11 @@ class Location(models.Model):
 
 class DayOfWeek(models.Model):
     name = models.CharField(max_length=20, unique=True)
-
     def __str__(self):
         return self.name
     class Meta:
         verbose_name_plural = "Week Days"
+
 
 class WorkingPeriod(models.Model):
     doctor = models.ForeignKey('Doctor', on_delete=models.CASCADE, related_name='working_periods')
@@ -61,9 +59,6 @@ class Doctor(models.Model):
     price = models.BigIntegerField(default=0)
     is_available = models.BooleanField(default=True)
 
-
-    
-
     def __str__(self):
         return f"{self.name}"
     
@@ -79,11 +74,11 @@ class Doctor(models.Model):
         current_time = datetime.combine(datetime.today(), start_time)
         end_time = datetime.combine(datetime.today(), end_time)
 
-        while current_time + timedelta(minutes=30) <= end_time:
+        while current_time + timedelta(minutes=15) <= end_time:
             slot_start = current_time.time()
-            slot_end = (current_time + timedelta(minutes=30)).time()
+            slot_end = (current_time + timedelta(minutes=15)).time()
             slots.append((slot_start, slot_end))
-            current_time += timedelta(minutes=30)
+            current_time += timedelta(minutes=15)
 
         print(slots, '---------')
 
@@ -108,12 +103,10 @@ class Doctor(models.Model):
     def generate_weekly_slots(self):
         weekly_slots = {}
         days_of_week = DayOfWeek.objects.all()
-
         for day in days_of_week:
             slots = self.generate_slots_for_day(day)
             if slots:
                 weekly_slots[day.name] = slots
-
         return weekly_slots
 
     class Meta:

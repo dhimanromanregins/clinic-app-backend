@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-
+import os
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, phone_number, id_number, first_name, last_name, password=None, **extra_fields):
@@ -75,10 +75,15 @@ class Profile(models.Model):
 
 class Banner(models.Model):
     image = models.ImageField(upload_to='banners/', verbose_name='Banner Image')
-
+    def __str__(self):
+        # Get the file name from the image field path
+        return os.path.basename(self.image.name)
 
 class Notifications(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    bosy = models.TextField()
+    body = models.TextField()
     is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for {self.user}"
