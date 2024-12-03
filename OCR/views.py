@@ -1,32 +1,26 @@
-import PyPDF2
-import re
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import UploadedPDF
+from children.models import Child
+from .serializers import UploadedPDFSerializer
 
-def extract_urn_number_from_pdf(pdf_path, target_text):
-    with open(pdf_path, 'rb') as file:
-        pdf_reader = PyPDF2.PdfReader(file)
-        extracted_text = ""
+class ChildDocumentsAPIView(APIView):
+    def get(self, request):
+        # Extract query parameters
+        child_id = request.query_params.get('child_id')
+        category = request.query_params.get('category')
+        print(child_id, '00000000000000')
+        try:
+            child = Child.objects.get(id=child_id)
+        except Child.DoesNotExist:
+            return Response({"error": "Child not found."}, status=status.HTTP_404_NOT_FOUND)
+        print(child.UAE_number, '-------------',child.id )
+        documents = UploadedPDF.objects.filter(urn_number=child.UAE_number)
 
-        # Extract text from all pages
-        for page_num in range(len(pdf_reader.pages)):
-            page = pdf_reader.pages[page_num]
-            extracted_text += page.extract_text()
+        if category:
+            documents = documents.filter(category=category)
 
-        # Normalize the text: remove excessive spaces and line breaks
-        normalized_text = re.sub(r'\s+', ' ', extracted_text)
-        print("Normalized Extracted Text:\n", normalized_text)
-
-        # Regular expression to find the six-digit number after 'URN'
-        pattern = fr"{re.escape(target_text)}\s*-\s*(\d{{7}})"
-        match = re.search(pattern, normalized_text)
-
-        if match:
-            urn_number = match.group(1)
-            print(f"Six-digit number found after '{target_text}': {urn_number}")
-            return urn_number
-        else:
-            print(f"No six-digit number found after '{target_text}'.")
-            return None
-
-pdf_path = "/home/sahil/Downloads/Document 12.pdf"
-target_text = "URN"
-extract_urn_number_from_pdf(pdf_path, target_text)
+        # Serialize and return the data
+        serializer = UploadedPDFSerializer(documents, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

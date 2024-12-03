@@ -25,7 +25,8 @@ urlpatterns = [
     path('', include("children.urls")),
     path('', include("doctors.urls")),
     path('', include("appointment.urls")),
-    path('', include("leaves.urls"))
+    path('', include("leaves.urls")),
+    path('', include("OCR.urls"))
 ]
 
 if settings.DEBUG:

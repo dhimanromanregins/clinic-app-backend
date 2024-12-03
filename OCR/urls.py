@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import *
-urlpatterns = [
-    # path('leaves/', LeavesAPIView.as_view()),
-]
+from .views import ChildDocumentsAPIView
 
+urlpatterns = [
+    path('child-documents/', ChildDocumentsAPIView.as_view(), name='child-documents'),
+]

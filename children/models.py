@@ -24,8 +24,8 @@ class Child(models.Model):
 
     parent = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='children')
     full_name = models.CharField(max_length=255)
-    child_id_number = models.CharField(max_length=18, unique=True)
-    UAE_number = models.CharField(max_length=255, null=True, blank=True)
+    child_id_number = models.CharField(max_length=18, unique=True, null=True, blank=True)
+    UAE_number = models.CharField(max_length=255, null=True, blank=True,unique=True)
     relation = models.CharField(max_length=10, choices=RelationChoices.choices, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GenderChoices.choices)
