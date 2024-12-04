@@ -23,11 +23,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Phone number must contain only digits.')
 
         # Check if the phone number starts with '91' and add it if not
-        if not phone_number.startswith('971'):
-            phone_number = '971' + phone_number
+        # if not phone_number.startswith('971'):
+        #     phone_number = '971' + phone_number
 
         # Validate length: Country code (2) + 10 digits = 12
-        if len(phone_number) != 13:
+        if len(phone_number) < 8:
             raise serializers.ValidationError('Phone number must be 10 digits long, excluding the country code.')
 
         # Check if the phone number already exists in the database
