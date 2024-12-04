@@ -1,6 +1,7 @@
 import fitz
 import re
 from django.db import models
+from children.models import Child, Documents
 from django.core.exceptions import ValidationError
 
 def extract_urn_from_pdf(file):
@@ -51,6 +52,7 @@ class UploadedPDF(models.Model):
         ('parent_sick_leave', 'Parent Sick Leave'),
         ('prescription', 'Prescription'),
         ('lab_report', 'Lab Report'),
+        ('To_whome_may_concern', 'To Whome May Concern'),
     ]
 
     pdf_file = models.FileField(upload_to='uploads/pdfs/')
@@ -63,18 +65,33 @@ class UploadedPDF(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Override save method to extract URN after saving the PDF file.
+        Override save method to extract URN and add the document to the `Documents` model
+        if URN matches with UAE_number in the `Child` table.
         """
-        is_new_instance = not self.pk  # Check if this is a new instance
-        super().save(*args, **kwargs)  # Save the instance to get a file path
+        is_new_instance = not self.pk
+        super().save(*args, **kwargs)
 
         if is_new_instance and self.pdf_file:
+            # Extract URN from the uploaded PDF file
             urn_result = extract_urn_from_pdf(self.pdf_file.path)
-            if urn_result and re.match(r"^\d{5,8}$", urn_result):  # Check if the result is a valid URN
+            if urn_result and re.match(r"^\d{5,8}$", urn_result):
                 self.urn_number = urn_result
+                super().save(update_fields=['urn_number'])
+
+
+                matching_child = Child.objects.filter(UAE_number=urn_result).first()
+                if matching_child:
+
+                    Documents.objects.create(
+                        parent=matching_child.parent,
+                        child=matching_child,
+                        Name=self.category,
+                        document=self.pdf_file,
+                        category=self.category,
+                    )
             else:
-                self.urn_number = "0"  # If no URN is found, save "0"
-            super().save(update_fields=['urn_number'])
+                self.urn_number = "0"
+                super().save(update_fields=['urn_number'])
 
     def __str__(self):
         return f"PDF: {self.pdf_file.name}, URN: {self.urn_number}, Category: {self.get_category_display()}"

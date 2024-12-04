@@ -48,7 +48,9 @@ class Documents(models.Model):
         ('parent_sick_leave', 'Parent Sick Leave'),
         ('prescription', 'Prescription'),
         ('lab_report', 'Lab Report'),
+        ('To_whome_may_concern', 'To Whome May Concern'),
     ]
+    parent = models.ForeignKey(CustomUser, models.CASCADE,null=True, blank=True)
     child = models.ForeignKey(Child, models.CASCADE, related_name='childern_document')
     Name = models.CharField(max_length=255)
     document = models.FileField()
@@ -81,7 +83,7 @@ def notify_document_added(sender, instance, created, **kwargs):
                 Notifications.objects.create(
                     user=user,
                     title=message_payload["title"],
-                    bosy=message_payload["body"],
+                    body=message_payload["body"],
                 )
                 print(f"Notification saved for user: {user}")
             else:

@@ -97,4 +97,4 @@ class BannerSerializer(serializers.ModelSerializer):
 class NotificationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notifications
-        fields = ['id', 'title', 'bosy', 'is_read']
+        fields = ['id', 'title', 'body', 'is_read']

@@ -102,3 +102,31 @@ class DocumentsListView(APIView):
         documents = Documents.objects.filter(child_id=child_id)
         serializer = DocumentsSerializer(documents, many=True)
         return Response(serializer.data)
+
+
+class DocumentsByParentAndCategoryView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, category):
+        parent_id = request.user.id
+        documents = Documents.objects.filter(parent_id=parent_id, category=category)
+
+        if not documents.exists():
+            return Response({"message": "No documents found for the given parent and category."},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        serializer = DocumentsSerializer(documents, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class DocumentsByChildAndCategoryView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, child_id, category):
+        # Filter documents by child and category
+        documents = Documents.objects.filter(child_id=child_id, category=category)
+
+        if not documents.exists():
+            return Response({"message": "No documents found for the given child and category."},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        serializer = DocumentsSerializer(documents, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
