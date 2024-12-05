@@ -33,7 +33,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         # Check if the phone number already exists in the database
         # if CustomUser.objects.filter(phone_number=phone_number).exists():
         #     raise serializers.ValidationError('Phone number already exists. Try logging in.')
-        # return phone_number
+        return phone_number
 
     def validate_id_number(self, id_number):
         # Check if the id_number already exists in the database
@@ -54,11 +54,11 @@ class OTPVerificationSerializer(serializers.Serializer):
         return data
 
 class LoginSerializer(serializers.Serializer):
-    identifier = serializers.CharField(max_length=18)  # 12 for phone, 18 for ID
+    identifier = serializers.CharField(max_length=18)
     password = serializers.CharField(write_only=True)
 
     def validate_identifier(self, value):
-        if len(value) != 13 and len(value) != 8:
+        if len(value) < 8:
             raise serializers.ValidationError("Identifier must be either 13 (phone) or 18 (ID) characters long.")
         return value
 

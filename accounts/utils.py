@@ -17,14 +17,15 @@ def generate_otp():
 def send_otp_via_whatsapp(phone_number):
     print(phone_number, '-------------')
     otp = generate_otp()
-    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    account_sid = settings.TWILIO_ACCOUNT_SID
+    auth_token = settings.TWILIO_AUTH_TOKEN
+    client = Client(account_sid, auth_token)
     message = client.messages.create(
-        body=f"Your OTP is {otp}",
-        from_='whatsapp:+14155238886',
-        to=f'whatsapp:{phone_number}'
+        messaging_service_sid=settings.MESSAGEING_SERVICE_SID,
+        body=f'Your OTP is:{otp}',
+        to=f'+{phone_number}'
     )
     print(message.sid)
-    print(otp, "+++++++++++++++++")
     return otp
 
 def send_otp_in_background(phone_number, request):

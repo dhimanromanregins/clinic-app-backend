@@ -110,18 +110,13 @@ class VerifyOtpAPIView(APIView):
                             first_name=serializer.validated_data['first_name'],
                             last_name=serializer.validated_data['last_name']
                         )
-                        # Use `set_password` to securely save the password
                         user.set_password(serializer.validated_data['password'])
                         user.save()
-
-                        # Create the associated profile
                         Profile.objects.create(user=user)
 
-                        # Generate JWT tokens
                         refresh = RefreshToken.for_user(user)
                         access_token = str(refresh.access_token)
 
-                        # Clear session data after successful registration
                         request.session.pop('otp', None)
                         request.session.pop('registration_data', None)
                         request.session['user_id'] = user.id
@@ -173,9 +168,9 @@ class LoginAPIView(APIView):
 
             user = None
 
-            if len(identifier) == 13:  # Phone number
+            if len(identifier) > 8:  # Phone number
                 user = CustomUser.objects.filter(phone_number=identifier).first()
-            elif len(identifier) == 8:  # ID number
+            elif len(identifier) <= 8:  # ID number
                 user = CustomUser.objects.filter(id_number=identifier).first()
             else:
                 return Response({'error': 'Invalid identifier format.'}, status=status.HTTP_400_BAD_REQUEST)
