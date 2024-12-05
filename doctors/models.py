@@ -97,7 +97,6 @@ class Doctor(models.Model):
 
             if period.afternoon_start and period.afternoon_end:
                 slots.extend(self.generate_slots_for_period(period.afternoon_start, period.afternoon_end))
-        print(slots, '1111111111111111111111')
         return slots
 
     def generate_weekly_slots(self):

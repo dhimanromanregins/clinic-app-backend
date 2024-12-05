@@ -54,6 +54,7 @@ class Documents(models.Model):
     child = models.ForeignKey(Child, models.CASCADE, related_name='childern_document')
     Name = models.CharField(max_length=255)
     document = models.FileField()
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True)
     category = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,

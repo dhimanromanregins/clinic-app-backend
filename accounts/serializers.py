@@ -31,9 +31,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Phone number must be 10 digits long, excluding the country code.')
 
         # Check if the phone number already exists in the database
-        if CustomUser.objects.filter(phone_number=phone_number).exists():
-            raise serializers.ValidationError('Phone number already exists. Try logging in.')
-        return phone_number
+        # if CustomUser.objects.filter(phone_number=phone_number).exists():
+        #     raise serializers.ValidationError('Phone number already exists. Try logging in.')
+        # return phone_number
 
     def validate_id_number(self, id_number):
         # Check if the id_number already exists in the database
@@ -64,28 +64,32 @@ class LoginSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer()  # Nested CustomUserSerializer to handle user data
+    # Using CustomUserSerializer to handle user data
+    user = CustomUserSerializer()
 
     class Meta:
         model = Profile
         fields = '__all__'
 
     def update(self, instance, validated_data):
+        # Extract user data if present
+        print('***********', validated_data)
         user_data = validated_data.pop('user', None)
 
         if user_data:
+            # Update the related CustomUser model
             user = instance.user
             for attr, value in user_data.items():
                 if value is not None:
                     setattr(user, attr, value)
-
             user.save()
+
+        # Update the Profile fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
         return instance
-
 
 
 class BannerSerializer(serializers.ModelSerializer):

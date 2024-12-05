@@ -498,23 +498,21 @@ class ProfileUpdateView(APIView):
     def patch(self, request, *args, **kwargs):
         user = request.user
         profile = self.get_user_profile(user)
+        print('request.data>>>>', request.data)
 
         # Serialize both the user and profile data
-        user_serializer = CustomUserSerializer(user, data=request.data, partial=True)
         profile_serializer = ProfileSerializer(profile, data=request.data, partial=True)
 
-        if user_serializer.is_valid() and profile_serializer.is_valid():
+        if profile_serializer.is_valid():
             # Save both the user and profile data
-            user_serializer.save()
             profile_serializer.save()
 
             return Response({
-                'user': user_serializer.data,
                 'profile': profile_serializer.data
             }, status=status.HTTP_200_OK)
 
         # If either serializer is invalid, return errors
+        print('profile_serializer.errors>>>', profile_serializer.errors)
         return Response({
-            'user_errors': user_serializer.errors,
             'profile_errors': profile_serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
