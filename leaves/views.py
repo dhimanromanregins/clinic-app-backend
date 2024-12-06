@@ -103,7 +103,6 @@ class ToWhomItMayConcernCreateView(APIView):
     def post(self, request, *args, **kwargs):
         # Add the current authenticated user to the request data
         request.data['user'] = request.user.id
-        print(request.data, '8888888888888888')
 
         # Deserialize the data sent in the request
         serializer = ToWhomItMayConcernSerializer(data=request.data)
