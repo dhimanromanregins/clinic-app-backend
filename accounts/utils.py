@@ -19,13 +19,15 @@ def send_otp_via_whatsapp(phone_number):
     otp = generate_otp()
     account_sid = settings.TWILIO_ACCOUNT_SID
     auth_token = settings.TWILIO_AUTH_TOKEN
-    message_sid = settings.MESSAGEING_SERVICE_SID
+    message_sid = settings.MESSAGING_SERVICE_SID
     content_sid = settings.CONTENT_SID
     from_number = settings.TWILIO_WHATSAPP_FROM
     client = Client(account_sid, auth_token)
+    print(otp, phone_number)
+    otp = str(otp)
     message = client.messages.create(
         content_sid=content_sid,
-        to=f'+{phone_number}',
+        to=f"whatsapp:+{phone_number}",
         from_=from_number,
         content_variables=json.dumps({"1": otp}),
         messaging_service_sid=message_sid,

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+load_dotenv()
 
 from django.conf.global_settings import STATICFILES_DIRS
 
@@ -156,8 +158,8 @@ SIMPLE_JWT = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-TWILIO_ACCOUNT_SID = 'AC520ddc60f52a78c3bc8b8b3e46ff2c03'
-TWILIO_AUTH_TOKEN = 'e52ebdcad55517b87516e2ad52ee79c6'
-TWILIO_WHATSAPP_FROM = 'whatsapp:+16814774941'
-MESSAGEING_SERVICE_SID = 'MGa998ccac661fe8cda1531e19a767a81d'
-CONTENT_SID="HX6941a012ece6facf41670aa3d98edc9d"
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+TWILIO_WHATSAPP_FROM = os.getenv('TWILIO_WHATSAPP_FROM')
+MESSAGING_SERVICE_SID = os.getenv('MESSAGING_SERVICE_SID')
+CONTENT_SID = os.getenv('CONTENT_SID')
