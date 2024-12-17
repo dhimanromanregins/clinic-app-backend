@@ -136,22 +136,15 @@ class CreateTeleDoctorAPIView(APIView):
 
 class DoctorAvailabilityAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        date_str = request.query_params.get('date')  # Get the date from query params
+        date_str = request.query_params.get('date')
         if not date_str:
             return Response({"error": "Date is required"}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
             date_obj = datetime.strptime(date_str, '%Y-%m-%d')  # Parse the date
         except ValueError:
             return Response({"error": "Invalid date format. Use YYYY-MM-DD"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Get the day of the week (0 = Monday, 6 = Sunday)
-        day_of_week = date_obj.weekday() + 1  # Adjust for 1-indexed DayOfWeek model
-
-        # Filter WorkingPeriods for the given day
+        day_of_week = date_obj.weekday() + 1
         working_periods = WorkingPeriod.objects.filter(day_of_week__id=day_of_week)
-
-        # Serialize the filtered data
         serializer = WorkingPeriodSerializer(working_periods, many=True)
         print(serializer.data)
 

@@ -94,9 +94,10 @@ class Doctor(models.Model):
         for period in working_periods:
             if period.morning_start and period.morning_end:
                 slots.extend(self.generate_slots_for_period(period.morning_start, period.morning_end))
-
             if period.afternoon_start and period.afternoon_end:
                 slots.extend(self.generate_slots_for_period(period.afternoon_start, period.afternoon_end))
+            if period.morning_start and period.afternoon_end:
+                slots.extend(self.generate_slots_for_period(period.morning_start, period.afternoon_end))
         return slots
 
     def generate_weekly_slots(self):

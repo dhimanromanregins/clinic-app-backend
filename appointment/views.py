@@ -34,7 +34,6 @@ class AvailableSlotsView(APIView):
                 start == slot[0] and end == slot[1] for start, end in booked_slots
             )
         ]
-        print(available_slots, '0000000000000000000000000')
         return Response({'available_slots': available_slots, 'selected_date': selected_date_str}, status=status.HTTP_200_OK)
 
 

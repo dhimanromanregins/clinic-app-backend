@@ -6,10 +6,15 @@ from children.models import Child
 
 
 class Booking(models.Model):
+    STATUS = [
+        ('YES', 'YES'),
+        ('NO', 'NO')
+        ]
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='bookings')
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='use')
     children_names = models.TextField(null=True, blank=True)
     type = models.CharField(max_length=255, null=True, blank=True)
+    patient_arrived = models.CharField(max_length=50,choices=STATUS,default='NO')
     slot_start = models.TimeField()
     slot_end = models.TimeField()
     date = models.DateField()

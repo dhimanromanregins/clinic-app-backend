@@ -22,6 +22,31 @@ class Child(models.Model):
         UNCLE = 'UNCLE', 'Uncle'
         FRIEND = 'FRIEND', 'Friend'
 
+    INSURANCE_CHOICES = [
+        ('NAS', 'NAS'),
+        ('METLIFE', 'METLIFE'),
+        ('NEXTCARE', 'NEXTCARE'),
+        ('GLOBEMED', 'GLOBEMED'),
+        ('ADNIC', 'ADNIC'),
+        ('OPEN_JET', 'OPEN JET'),
+        ('DAMAN', 'DAMAN'),
+        ('THIQA', 'THIQA'),
+        ('AL_KHAZNA', 'AL KHAZNA'),
+        ('AXA', 'AXA'),
+        ('NEURON', 'NEURON'),
+        ('MEDNET', 'MEDNET'),
+        ('SUKOON', 'SUKOON'),
+        ('WEALTH_INTL', 'Wealth International'),
+        ('PENTACARE', 'Pentacare'),
+        ('AL_MADALLAH', 'AL Madallah'),
+        ('FMC_METLIFE', 'FMC - Metlife'),
+        ('MAX_CARE', 'Max Care'),
+        ('AFIYA_TPA', 'Afiya TPA'),
+        ('NGI_HEALTHNET', 'NGI Healthnet'),
+        ('IRIS', 'IRIS'),
+        ('MSH', 'MSH'),
+    ]
+
     parent = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='children')
     full_name = models.CharField(max_length=255)
     child_id_number = models.CharField(max_length=18, unique=True, null=True, blank=True)
@@ -30,8 +55,8 @@ class Child(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GenderChoices.choices)
     grade = models.CharField(max_length=255, null=True, blank=True)
-    insurance = models.CharField(max_length=255, null=True, blank=True)
-    insurance_number = models.CharField(max_length=255, null=True, blank=True)
+    insurance = models.CharField(max_length=255,choices=INSURANCE_CHOICES, null=True, blank=True)
+    insurance_number = models.CharField(max_length=50, null=True, blank=True)
     nationality = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
