@@ -100,7 +100,7 @@ class DoctorDetailView(APIView):
 
 class CreateTeleDoctorAPIView(APIView):
     # Ensure that the user is authenticated
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         doctor_id = request.data.get('doctor_id')

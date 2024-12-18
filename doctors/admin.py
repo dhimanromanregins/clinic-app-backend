@@ -6,8 +6,8 @@ from .forms import DoctorForm
 class DoctorsAdmin(admin.ModelAdmin):
     form = DoctorForm
     list_display = ('name', 'specialty', 'is_available', 'tele_medicine_doctor')
-    search_fields = ('name', 'specialty', 'hospital_name')
-    list_filter = ('is_available', 'tele_medicine_doctor', 'location')
+    search_fields = ('name', 'specialty', 'hospital_name', 'phone_number')
+    list_filter = ('is_available', 'tele_medicine_doctor', 'location', 'phone_number')
 
     def display_languages(self, obj):
         return ", ".join([language.language for language in obj.languages.all()])

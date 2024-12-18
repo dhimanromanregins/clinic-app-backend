@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import timedelta, datetime
 from accounts.models import CustomUser
+from .utils import send_notification_via_whatsapp
 
 # Create your models here.
 
@@ -49,6 +50,7 @@ class Doctor(models.Model):
     languages = models.ManyToManyField(Language, related_name="doctors")
     experience = models.CharField(max_length=255)
     about = models.TextField()
+    phone_number = models.BigIntegerField(null=True, blank=True)
     hospital_name = models.CharField(max_length=255)
     education = models.CharField(max_length=255)
     registration_id = models.CharField(max_length=255)
@@ -120,15 +122,18 @@ class TeleDoctor(models.Model):
     parent_name = models.CharField(max_length=255, blank=True)  # Leave it blank initially
 
     def save(self, *args, **kwargs):
-        # Dynamically set the doctor's name from the related Doctor object
         if self.doctor:
-            self.doctors_name = self.doctor.name  # Assuming 'name' field exists in Doctor model
-
-        # Dynamically set the parent's name from the related CustomUser object
+            self.doctors_name = self.doctor.name
         if self.user:
             self.parent_name = f'{self.user.first_name} {self.user.last_name}'  # Assuming these fields exist in CustomUser
 
         super().save(*args, **kwargs)
+        # Call the notification function after saving
+        if self.doctor and self.doctor.phone_number:  # Assuming Doctor has a phone_number field
+            send_notification_via_whatsapp(
+                phone_number=self.doctor.phone_number,
+                user_name=self.parent_name
+            )
 
     def __str__(self):
         return f"TeleDoctor with {self.doctors_name} and parent {self.parent_name}"

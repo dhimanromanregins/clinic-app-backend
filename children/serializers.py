@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Child, Documents
+from .models import Child, Documents, Vaccination
 
 class ChildSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,3 +15,9 @@ class DocumentsSerializer(serializers.ModelSerializer):
 
     def get_document_url(self, obj):
         return f"http://192.168.1.111:8001{obj.document.url}"
+
+
+class VaccinationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vaccination
+        fields = '__all__'

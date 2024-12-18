@@ -5,9 +5,10 @@ from rest_framework.views import APIView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from rest_framework import generics
+from .models import Vaccination
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import ChildSerializer,DocumentsSerializer
+from .serializers import ChildSerializer,DocumentsSerializer, VaccinationSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # Create your views here.
@@ -130,3 +131,14 @@ class DocumentsByChildAndCategoryView(APIView):
 
         serializer = DocumentsSerializer(documents, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class VaccinationListView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, child_id):
+        try:
+            vaccinations = Vaccination.objects.filter(child_id=child_id)
+            serializer = VaccinationSerializer(vaccinations, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Vaccination.DoesNotExist:
+            return Response({"error": "Child not found or no vaccinations available"}, status=status.HTTP_404_NOT_FOUND)

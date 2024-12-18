@@ -118,3 +118,12 @@ def notify_document_added(sender, instance, created, **kwargs):
         else:
             print(f"No device token found for user: {user}")
 
+
+
+class Vaccination(models.Model):
+    child = models.ForeignKey(Child, on_delete=models.CASCADE)
+    Vaccination_name = models.CharField(max_length=255)
+    Vaccination_date = models.DateField()
+    created_at = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

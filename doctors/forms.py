@@ -5,7 +5,7 @@ from .models import Doctor, WorkingPeriod, DayOfWeek
 class DoctorForm(forms.ModelForm):
     class Meta:
         model = Doctor
-        fields = ['name', 'specialty', 'location', 'experience', 'about', 'hospital_name',
+        fields = ['name', 'specialty', 'location', 'experience', 'phone_number','about', 'hospital_name',
                   'education', 'registration_id', 'profile_photo', 'tele_medicine_doctor',
                   'hospital_visit', 'is_available', 'languages']
 

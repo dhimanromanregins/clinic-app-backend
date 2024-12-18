@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Child, Documents
+from .models import Child, Documents,Vaccination
 
 
 class ChildAdmin(admin.ModelAdmin):
@@ -30,3 +30,19 @@ class DocumentsAdmin(admin.ModelAdmin):
 
 # Register the model with the custom admin class
 admin.site.register(Documents, DocumentsAdmin)
+
+
+@admin.register(Vaccination)
+class VaccinationAdmin(admin.ModelAdmin):
+    # Fields to display in the list view
+    list_display = ('child', 'Vaccination_name', 'Vaccination_date', 'created_at', 'updated_at')
+
+    # Fields to filter by
+    list_filter = ('Vaccination_date', 'created_at', 'updated_at', 'child')
+
+    # Search fields
+    search_fields = (
+    'Vaccination_name', 'child__name')  # Adjust `child__name` if the `Child` model has a different field for the name
+
+    # Enable date hierarchy
+    date_hierarchy = 'Vaccination_date'

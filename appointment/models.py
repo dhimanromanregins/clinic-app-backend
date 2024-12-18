@@ -28,3 +28,5 @@ class Booking(models.Model):
     def get_children_list(self):
         # This method can be used to retrieve the list of children names as a list
         return self.children_names.split(",") if self.children_names else []
+
+
