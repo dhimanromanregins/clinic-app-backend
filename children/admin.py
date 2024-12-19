@@ -35,14 +35,13 @@ admin.site.register(Documents, DocumentsAdmin)
 @admin.register(Vaccination)
 class VaccinationAdmin(admin.ModelAdmin):
     # Fields to display in the list view
-    list_display = ('child', 'Vaccination_name', 'Vaccination_date', 'created_at', 'updated_at')
+    list_display = ('child', 'vaccination_name', 'vaccination_date', 'created_at', 'updated_at')
 
     # Fields to filter by
-    list_filter = ('Vaccination_date', 'created_at', 'updated_at', 'child')
+    list_filter = ('vaccination_date', 'created_at', 'updated_at', 'child')
 
     # Search fields
-    search_fields = (
-    'Vaccination_name', 'child__name')  # Adjust `child__name` if the `Child` model has a different field for the name
+    search_fields = ('vaccination_name', 'child__name')  # Adjust `child__name` if the `Child` model has a different field for the name
 
     # Enable date hierarchy
-    date_hierarchy = 'Vaccination_date'
+    date_hierarchy = 'vaccination_date'

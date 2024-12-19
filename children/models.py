@@ -121,9 +121,44 @@ def notify_document_added(sender, instance, created, **kwargs):
 
 
 class Vaccination(models.Model):
-    child = models.ForeignKey(Child, on_delete=models.CASCADE)
-    Vaccination_name = models.CharField(max_length=255)
-    Vaccination_date = models.DateField()
-    created_at = models.DateField()
+    AGE_GROUPS = [
+        ('after_birth', 'After Birth'),
+        ('end_2_month', 'End of 2 Months'),
+        ('end_4_month', 'End of 4 Months'),
+        ('end_6_month', 'End of 6 Months'),
+        ('end_12_month', 'End of 12 Months'),
+        ('end_18_month', 'End of 18 Months'),
+        ('grade_a', 'Grade A'),
+        ('grade_8', 'Grade 8'),
+        ('grade_11', 'Grade 11'),
+    ]
+
+    VACCINATIONS = [
+        ('BCG', 'BCG'),
+        ('Hepatitis B', 'Hepatitis B'),
+        ('Hexavalent', 'Hexavalent (DTaP, Hib, Hep B, IPV)'),
+        ('PCV', 'PCV'),
+        ('Rotavirus', 'Rotavirus'),
+        ('NMR-1', 'NMR-1'),
+        ('Varicella-1', 'Varicella-1'),
+        ('bOPV', 'bOPV'),
+        ('DTaP-Hib-IPV', 'DTaP-Hib-IPV'),
+        ('MMR-2', 'MMR-2'),
+        ('MMR-3', 'MMR-3'),
+        ('Varicella-2', 'Varicella-2'),
+        ('DTaP-IPV', 'DTaP-IPV'),
+        ('HPV', 'HPV (Female)'),
+        ('Tdap', 'Tdap'),
+        ('MCV', 'MCV'),
+    ]
+
+    child = models.ForeignKey('Child', on_delete=models.CASCADE)
+    age_group = models.CharField(max_length=20, choices=AGE_GROUPS)
+    vaccination_name = models.CharField(max_length=50, choices=VACCINATIONS)
+    vaccination_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.child} - {self.get_age_group_display()} - {self.get_vaccination_name_display()}"
+
