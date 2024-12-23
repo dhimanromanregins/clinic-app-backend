@@ -7,5 +7,8 @@ urlpatterns = [
     path('api/parent-sick-leave/', ParentSickLeaveCreateAPIView.as_view(), name='parent-sick-leave-create'),
     path('parent-sick-leave-history/', ParentSickLeaveHistoryList.as_view(), name='parent_sick_leave_history_list'),
     path('to-whom-it-may-concern/', ToWhomItMayConcernCreateView.as_view(), name='to-whom-it-may-concern-create'),
+    path('api/medical-request/', MedicalRecordsRequestAPIView.as_view(), name='medical-request'),
+    path('api/prescription-request/', PrescriptionRequestAPIView.as_view(), name='prescription-request'),
+    path('api/lab-request/', LabRequestAPIView.as_view(), name='prescription-request'),
 ]
 

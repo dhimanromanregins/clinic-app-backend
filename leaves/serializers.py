@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Leaves, SickLeaveRequestView, SickLeaveRecords,ToWhomItMayCocern,ParentSickLeave,ParentSickLeaveHistory
+from .models import Leaves, SickLeaveRequestView,PrescriptionRequestView, MedicalReportsRequestView,SickLeaveRecords,ToWhomItMayCocern,ParentSickLeave,ParentSickLeaveHistory,LabRequestView
 
 class LeavesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,3 +43,19 @@ class ToWhomItMayConcernSerializer(serializers.ModelSerializer):  # Fix the typo
     class Meta:
         model = ToWhomItMayCocern  # Fix the model name here
         fields = ['id', 'concern', 'user', 'child_name', 'sent_to', 'sender', 'additional_notes']  # Fix the field names here
+
+
+class MedicalReportsRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MedicalReportsRequestView
+        fields = ['id', 'children', 'to', 'sender']
+
+class PrescriptionRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrescriptionRequestView
+        fields = ['id', 'children', 'to', 'sender']
+
+class LabRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LabRequestView
+        fields = ['id', 'children', 'to', 'sender']

@@ -80,3 +80,30 @@ class ToWhomItMayCocern(models.Model):
 
 
 
+class MedicalReportsRequestView(models.Model):
+    children = models.ForeignKey(Child, on_delete=models.CASCADE)
+    to = models.CharField(max_length=255)
+    sender = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Sick leave record for {self.children.full_name}"
+
+class PrescriptionRequestView(models.Model):
+    children = models.ForeignKey(Child, on_delete=models.CASCADE)
+    to = models.CharField(max_length=255)
+    sender = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Sick leave record for {self.children.full_name}"
+
+class LabRequestView(models.Model):
+    children = models.ForeignKey(Child, on_delete=models.CASCADE)
+    to = models.CharField(max_length=255)
+    sender = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Sick leave record for {self.children.full_name}"
+
+
+
+

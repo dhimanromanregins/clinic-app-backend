@@ -4,7 +4,7 @@ from rest_framework import status
 from datetime import datetime
 from django.shortcuts import get_object_or_404
 from .models import Leaves, CustomUser, SickLeaveRecords,ParentSickLeaveHistory
-from .serializers import LeavesSerializer,SickLeaveRequestSerializer,ToWhomItMayConcernSerializer,ParentSickLeaveHistorySerializer, SickLeaveRecordsSerializer,ParentSickLeaveSerializer
+from .serializers import LeavesSerializer,MedicalReportsRequestSerializer,LabRequestSerializer,PrescriptionRequestSerializer,SickLeaveRequestSerializer,ToWhomItMayConcernSerializer,ParentSickLeaveHistorySerializer, SickLeaveRecordsSerializer,ParentSickLeaveSerializer
 from rest_framework.permissions import IsAuthenticated
 from children.models import Child
 
@@ -115,4 +115,29 @@ class ToWhomItMayConcernCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         # If data is not valid, return an error response
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class MedicalRecordsRequestAPIView(APIView):
+    def post(self, request):
+        serializer = MedicalReportsRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PrescriptionRequestAPIView(APIView):
+    def post(self, request):
+        serializer = PrescriptionRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LabRequestAPIView(APIView):
+    def post(self, request):
+        serializer = LabRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
