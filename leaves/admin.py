@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Leaves,PrescriptionRequestView,SickLeaveRequestView,SickLeaveRecords,ParentSickLeave,ParentSickLeaveHistory,ToWhomItMayCocern,MedicalReportsRequestView
+from .models import Leaves,PrescriptionRequestView,LabRequestView,SickLeaveRequestView,SickLeaveRecords,ParentSickLeave,ParentSickLeaveHistory,ToWhomItMayCocern,MedicalReportsRequestView
 
 # Register your models here.
 
@@ -11,3 +11,4 @@ admin.site.register(ParentSickLeaveHistory)
 admin.site.register(ToWhomItMayCocern)
 admin.site.register(MedicalReportsRequestView)
 admin.site.register(PrescriptionRequestView)
+admin.site.register(LabRequestView)
