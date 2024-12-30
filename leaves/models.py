@@ -94,7 +94,7 @@ class PrescriptionRequestView(models.Model):
     sender = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"Sick leave record for {self.children.full_name}"
+        return f"Prescription record for {self.children.full_name}"
 
 class LabRequestView(models.Model):
     children = models.ForeignKey(Child, on_delete=models.CASCADE)
@@ -102,7 +102,7 @@ class LabRequestView(models.Model):
     sender = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"Sick leave record for {self.children.full_name}"
+        return f"Lab record for {self.children.full_name}"
 
 
 
